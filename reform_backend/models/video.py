@@ -1,5 +1,6 @@
 # models/video.py
 import os
+from urllib.parse import urlparse
 import requests
 import tempfile
 
@@ -13,6 +14,11 @@ class Video:
     @classmethod
     def from_url(cls, video_url: str):
         """Download video from URL"""
+        parsed = urlparse(video_url)
+
+        # allow only http and https
+        if parsed.scheme not in ["http", "https"]:
+            raise ValueError("Invalid URL scheme")
         try:
             r = requests.get(video_url, stream=True, timeout=60)
             r.raise_for_status()

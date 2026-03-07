@@ -4,12 +4,12 @@
 KP_INDICES = [11, 12, 13, 14, 15, 16, 23, 24] 
 
 
-SEQ_LEN = 32
+SEQ_LEN = 46
 FEATURES = 16
-TEST_STRIDE = 4
+TEST_STRIDE = 8
 
-VIS_THRESHOLD = 0.5                 # Confidence value the ignores keypoints
-MIN_VALID_KEYPOINT_RATIO = 0.6      # Minimum valid x/y points required per frame
+VIS_THRESHOLD = 0.6                 # Confidence value the ignores keypoints
+MIN_VALID_KEYPOINT_RATIO = 0.67     # Minimum valid x/y points required per frame
 INTERP_LIMIT = 5                    # Maximum number of values to interpolate
 
 SMOOTH = True
