@@ -1,6 +1,6 @@
 // middleware/error.middleware.js
 
-module.exports = function errorMiddleware(err, req, res, next) {
+module.exports = function errorMiddleware(err, req, res,) {
   console.error("Error:", err);
 
   const status = err.statusCode || 500;

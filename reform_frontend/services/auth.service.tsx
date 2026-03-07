@@ -3,6 +3,7 @@ import { API_BASE } from "../constants/api";
 type LoginPayload = { email: string; password: string };
 type SignupPayload = { fullName: string; email: string; password: string };
 
+
 async function handleResponse(res: Response) {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {

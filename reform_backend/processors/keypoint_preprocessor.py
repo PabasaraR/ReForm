@@ -49,7 +49,6 @@ class KeypointPreprocessor:
             for col in column_names:
                 try:
                     raw_keypoints_df[col] = savgol_filter(raw_keypoints_df[col].values, SMOOTH_WINDOW, SMOOTH_POLY)
-                except Exception:
-                    pass
-
+                except Exception as e:
+                    print(f"Smoothing failed for column {col}: {e}")
         return raw_keypoints_df

@@ -1,28 +1,29 @@
 import { API_BASE } from "../constants/api";
 import { getToken } from "./token.storage";
+import * as ImagePicker from "expo-image-picker";
 
-export async function analyzeVideo(exercise: string, videoAsset: any) {
+export async function analyzeVideo(exercise: string, videoAsset: ImagePicker.ImagePickerAsset) {
 
   const token = await getToken();
   if (!token) throw new Error("No token found. Please sign in again.");
 
   const formData = new FormData();
 
-  // ✅ must match backend key name: exercise
+  // must match backend key name: exercise
   formData.append("exercise", exercise);
 
-  // ✅ must match multer field name: video
+  // must match multer field name: video
   formData.append("video", {
     uri: videoAsset.uri,
     name: videoAsset.fileName ?? "exercise.mp4",
     type: videoAsset.mimeType ?? "video/mp4",
-  } as any);
+  } as unknown as Blob);
 
   const res = await fetch(`${API_BASE}/api/videos/analyze`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
-      // ⚠️ IMPORTANT: do NOT manually set Content-Type in React Native for FormData
+      // IMPORTANT: do NOT manually set Content-Type in React Native for FormData
       // RN will set proper boundary automatically.
     },
     body: formData,

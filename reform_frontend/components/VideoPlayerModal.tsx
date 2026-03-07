@@ -9,8 +9,15 @@ type Props = {
   onClose: () => void;
 };
 
+type VideoSource = {
+  uri: string;
+  headers: {
+    Authorization: string;
+  };
+};
+
 export default function VideoPlayerModal({ visible, videoDocId, onClose }: Props) {
-  const [source, setSource] = useState<any>(null);
+  const [source, setSource] = useState<VideoSource | null>(null);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
@@ -24,8 +31,14 @@ export default function VideoPlayerModal({ visible, videoDocId, onClose }: Props
         setLoading(true);
         const s = await getStreamSource(videoDocId);
         if (mounted) setSource(s);
-      } catch (e: any) {
-        if (mounted) setErr(e?.message || "Failed to load video");
+      } catch (e: unknown) {
+      if (mounted) {
+        if (e instanceof Error) {
+          setErr(e.message);
+        } else {
+          setErr("Failed to load video");
+        }
+      }
       } finally {
         if (mounted) setLoading(false);
       }

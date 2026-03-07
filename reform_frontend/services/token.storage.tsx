@@ -1,9 +1,16 @@
 import * as SecureStore from "expo-secure-store";
+export type User = {
+  _id: string;
+  fullName: string;
+  email: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
 
 const TOKEN_KEY = "reform_token";
 const USER_KEY = "reform_user";
 
-export async function saveAuth(token: string, user: any) {
+export async function saveAuth(token: string, user: User) {
   await SecureStore.setItemAsync(TOKEN_KEY, token);
   await SecureStore.setItemAsync(USER_KEY, JSON.stringify(user));
 }
