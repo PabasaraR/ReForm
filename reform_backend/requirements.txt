@@ -1,0 +1,15 @@
+numpy
+pandas
+opencv-python
+mediapipe==0.10.21
+scipy
+matplotlib
+tqdm
+tensorflow
+python-dotenv
+google-genai
+protobuf==4.25.3
+requests
+python-multipart
+uvicorn[standard]
+fastapi

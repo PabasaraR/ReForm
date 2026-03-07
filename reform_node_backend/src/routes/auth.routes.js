@@ -1,0 +1,12 @@
+// routes/auth.routes.js
+
+const express = require("express");
+const asyncHandler = require("../utils/asyncHandler");
+const { signin,signup  } = require("../controllers/auth.controller");
+
+const router = express.Router();
+
+router.post("/signup", asyncHandler(signup));
+router.post("/signin", asyncHandler(signin));
+
+module.exports = router;

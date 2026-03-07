@@ -1,0 +1,739 @@
+[{
+  "id": "shoulder_press_left_wrist_outward",
+  "exercise": "dumbbell shoulder press",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_15"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_15": "positive"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_positive",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Left wrist moves outward away from the body compared to the expected correct shoulder press path.",
+  "feedback": "Your left wrist drifts outward during the shoulder press. Keep the dumbbell stacked over your elbow and press straight up.",
+  "correction_tips": [
+    "Keep the left wrist stacked directly above the elbow",
+    "Press the dumbbell straight upward instead of outward",
+    "Lower the weight if the wrist keeps drifting outward"
+  ],
+  "body_parts": ["left wrist", "left elbow", "left shoulder"],
+  "side": "left",
+  "priority": "primary"
+},
+{
+  "id": "shoulder_press_right_wrist_outward",
+  "exercise": "dumbbell shoulder press",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_16"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_16": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Right wrist moves outward away from the body compared to the expected correct shoulder press path.",
+  "feedback": "Your right wrist drifts outward during the shoulder press. Keep the dumbbell stacked over your elbow and press straight up.",
+  "correction_tips": [
+    "Keep the right wrist stacked directly above the elbow",
+    "Press the dumbbell straight upward instead of outward",
+    "Reduce the weight if the wrist keeps drifting outward"
+  ],
+  "body_parts": ["right wrist", "right elbow", "right shoulder"],
+  "side": "right",
+  "priority": "primary"
+},
+{
+  "id": "shoulder_press_left_wrist_inward",
+  "exercise": "dumbbell shoulder press",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_15"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_15": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Left wrist moves inward toward the body compared to the expected correct shoulder press path.",
+  "feedback": "Your left wrist moves inward during the shoulder press. Keep the dumbbell aligned over your elbow and avoid pressing toward your head.",
+  "correction_tips": [
+    "Keep the left wrist stacked directly above the elbow",
+    "Press the dumbbell straight upward, not inward",
+    "Maintain even spacing between both arms"
+  ],
+  "body_parts": ["left wrist", "left elbow", "left shoulder"],
+  "side": "left",
+  "priority": "primary"
+},
+{
+  "id": "shoulder_press_right_wrist_inward",
+  "exercise": "dumbbell shoulder press",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_16"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_16": "positive"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_positive",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Right wrist moves inward toward the body compared to the expected correct shoulder press path.",
+  "feedback": "Your right wrist moves inward during the shoulder press. Keep the dumbbell stacked over your elbow and press straight up and avoid pressing toward your head",
+  "correction_tips": [
+    "Keep the right wrist aligned directly above the elbow",
+    "Press the dumbbell vertically instead of inward",
+    "Maintain equal spacing between both arms"
+  ],
+  "body_parts": ["right wrist", "right elbow", "right shoulder"],
+  "side": "right",
+  "priority": "primary"
+},
+{
+  "id": "shoulder_press_both_wrists_outward",
+  "exercise": "dumbbell shoulder press",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_15", "x_16"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_15": "positive",
+      "x_16": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "consistent_outward",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Both wrists move outward away from the body compared to the expected correct shoulder press path.",
+  "feedback": "Both dumbbells drift outward during the shoulder press. Keep your wrists stacked over your elbows and press straight up.",
+  "correction_tips": [
+    "Start with dumbbells aligned over your elbows",
+    "Press both dumbbells vertically instead of outward",
+    "Reduce the weight if both arms drift outward"
+  ],
+  "body_parts": ["wrists", "elbows", "shoulders"],
+  "side": "both",
+  "priority": "primary"
+},
+{
+  "id": "shoulder_press_both_wrists_inward",
+  "exercise": "dumbbell shoulder press",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_15", "x_16"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_15": "negative",
+      "x_16": "positive"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "consistent_inward",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Both wrists move inward toward the body compared to the expected correct shoulder press path.",
+  "feedback": "Both dumbbells move inward during the shoulder press. Keep your arms slightly apart and press straight up.",
+  "correction_tips": [
+    "Maintain natural spacing between both arms",
+    "Keep wrists stacked over elbows throughout the press",
+    "Avoid pressing the dumbbells toward your head"
+  ],
+  "body_parts": ["wrists", "elbows", "shoulders"],
+  "side": "both",
+  "priority": "primary"
+},
+{
+  "id": "shoulder_press_left_wrist_y_too_high_top_half_fast",
+  "exercise": "dumbbell shoulder press",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["y_15"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "y_15": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Left wrist stays higher than the expected correct path (wrist above the correct height). This often suggests top-half partial reps, pressing the dumbbell up too fast, or lowering the dumbbell down too slowly .",
+  "feedback": "Your left dumbbell stays too high during the shoulder press. You may be pressing up too fast or lowering the dumbbell too slowly at the top. Lower the dumbbell deeper and use a smooth, balanced tempo.",
+  "correction_tips": [
+    "Lower the dumbbell to a deeper, comfortable bottom position each rep",
+    "Avoid explosive fast pressing at the top",
+    "Lower the dumbbell smoothly instead of holding or lowering too slowly at the top"
+  ],
+  "body_parts": ["left wrist", "left elbow", "left shoulder"],
+  "side": "left",
+  "priority": "primary"
+},
+{
+  "id": "shoulder_press_right_wrist_y_too_high_top_half_fast",
+  "exercise": "dumbbell shoulder press",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["y_16"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "y_16": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Right wrist stays higher than the expected correct path (wrist above the correct height). This often suggests top-half partial reps, pressing the dumbbell up too fast, or lowering the dumbbell down too slowly.",
+  "feedback": "Your right dumbbell stays too high during the shoulder press. You may be pressing up too fast or lowering the dumbbell too slowly at the top. Lower the dumbbell deeper and control the full movement.",
+  "correction_tips": [
+    "Lower the dumbbell to a deeper bottom position each rep",
+    "Avoid rushing the upward press",
+    "Lower the dumbbell at a steady, controlled speed"
+  ],
+  "body_parts": ["right wrist", "right elbow", "right shoulder"],
+  "side": "right",
+  "priority": "primary"
+},
+{
+  "id": "shoulder_press_left_wrist_y_too_low_bottom_partial_slow_push",
+  "exercise": "dumbbell shoulder press",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["y_15"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "y_15": "positive"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_positive",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Left wrist stays lower than the expected correct path. This suggests bottom-part partial reps, very slow pushing up, or dropping the dumbbell down too fast.",
+  "feedback": "Your left dumbbell stays too low during the shoulder press. You may be pushing too slowly or lowering the weight too quickly. Press fully up and control the way down.",
+  "correction_tips": [
+    "Press the dumbbell fully upward each rep",
+    "Use a steady tempo for both lifting and lowering",
+    "Avoid dropping the dumbbell quickly at the bottom"
+  ],
+  "body_parts": ["left wrist", "left elbow", "left shoulder"],
+  "side": "left",
+  "priority": "primary"
+},
+{
+  "id": "shoulder_press_right_wrist_y_too_low_bottom_partial_slow_push",
+  "exercise": "dumbbell shoulder press",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["y_16"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "y_16": "positive"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_positive",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Right wrist stays lower than the expected correct path. This suggests bottom-part partial reps, very slow pushing up, or dropping the dumbbell down too fast.",
+  "feedback": "Your right dumbbell stays too low during the shoulder press. You may be pushing too slowly or lowering the weight too quickly. Press fully up and control the way down.",
+  "correction_tips": [
+    "Press the dumbbell fully upward each rep",
+    "Control the speed of both the press and the lowering phase",
+    "Avoid letting the dumbbell drop quickly at the bottom"
+  ],
+  "body_parts": ["right wrist", "right elbow", "right shoulder"],
+  "side": "right",
+  "priority": "primary"
+},
+{
+  "id": "shoulder_press_both_wrists_y_too_high_top_half_fast",
+  "exercise": "dumbbell shoulder press",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["y_15", "y_16"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "y_15": "negative",
+      "y_16": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Both wrists stay higher than the expected correct path. This indicates top-half partial reps, pressing the dumbbells up too fast, or lowering them too slowly .",
+  "feedback": "Both dumbbells stay too high during the shoulder press. You may be pressing too fast or not lowering fully. Lower both dumbbells deeper and use a smooth, balanced tempo.",
+  "correction_tips": [
+    "Lower both dumbbells to a full bottom position each rep",
+    "Avoid explosive fast pressing",
+    "Lower the dumbbells smoothly instead of holding them too long at the top"
+  ],
+  "body_parts": ["wrists", "elbows", "shoulders"],
+  "side": "both",
+  "priority": "primary"
+},
+{
+  "id": "shoulder_press_both_wrists_y_too_low_bottom_partial_slow_push",
+  "exercise": "dumbbell shoulder press",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["y_15", "y_16"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "y_15": "positive",
+      "y_16": "positive"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_positive",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Both wrists stay lower than the expected correct path. This suggests bottom-part partial reps, pushing the dumbbells up too slowly, or dropping them down too quickly.",
+  "feedback": "Both dumbbells stay too low during the shoulder press. You may be pushing too slowly or dropping the weights too fast. Press fully up and control the lowering phase.",
+  "correction_tips": [
+    "Press both dumbbells fully upward each rep",
+    "Use a steady tempo for both pressing and lowering",
+    "Avoid dropping the dumbbells quickly at the bottom"
+  ],
+  "body_parts": ["wrists", "elbows", "shoulders"],
+  "side": "both",
+  "priority": "primary"
+},
+{
+  "id": "kb_dumbbell_shoulder_press_wrist_y_path_interpretation",
+  "type": "guide",
+  "pattern": {
+    "features": ["y_15", "y_16"],
+    "mean_direction_signs": {
+      "y_15": "common",
+      "y_16": "common"
+    }
+  },
+  "exercise": "dumbbell shoulder press",
+  "title": "Wrist Y-axis difference indicates press range depth and tempo imbalance",
+  "what_it_means": "Vertical (Y) wrist differences show whether the dumbbells stay higher or lower than the expected correct shoulder press path. This often reflects partial range of motion or imbalance in pressing and lowering speed, measured relative to the reconstructed normal motion.",
+  "keypoints": {
+    "y_15": "left wrist (vertical)",
+    "y_16": "right wrist (vertical)"
+  },
+  "direction_rules": {
+    "y_negative": "wrist/dumbbell is higher than the correct path (top-half bias, fast press, or slow lowering near the top)",
+    "y_positive": "wrist/dumbbell is lower than the correct path (bottom-half bias, slow press, or fast drop down)"
+  },
+  "path_rules": {
+    "left_only": "If only the left wrist shows abnormal height, the press depth or tempo is inconsistent on the left side.",
+    "right_only": "If only the right wrist shows abnormal height, the press depth or tempo is inconsistent on the right side.",
+    "both_high": "If both wrists stay higher than expected, the exercise is dominated by top-half partial reps or fast pressing.",
+    "both_low": "If both wrists stay lower than expected, the exercise is dominated by bottom-half partial reps, slow pushing, or fast dropping."
+  },
+  "correct_form_reference": "In a correct dumbbell shoulder press, the dumbbells move through a full vertical range with a balanced tempo—controlled pressing up and controlled lowering down—without staying too high or too low throughout the repetitions.",
+  "common_corrections": [
+    "Use a full range of motion from bottom to top",
+    "Avoid rushing the press or dropping the dumbbells quickly",
+    "Keep a steady, balanced tempo for both lifting and lowering",
+    "Reduce the weight if full control and range cannot be maintained"
+  ],
+  "tags": ["wrist", "y-axis", "dumbbell shoulder press", "range of motion", "tempo", "partial reps", "interpretation", "guide"]
+},
+ {
+    "id": "shoulder_press_left_elbow_too_wide",
+    "exercise": "dumbbell shoulder press",
+    "type": "primary_error",
+    "pattern": {
+      "features": ["x_13"],
+      "exceed_rate_level": "medium_or_higher",
+      "mean_direction_signs": { "x_13": "positive" },
+      "mean_error_level": "medium_or_higher",
+      "direction_trend": "mostly_positive",
+      "error_trend": "stable_or_rising"
+    },
+    "meaning": "Left elbow moves too wide (away from the body) compared to the expected correct shoulder press path.",
+    "feedback": "Your left elbow drifts too wide during the shoulder press. Keep the elbow slightly forward and stacked under the wrist.",
+    "correction_tips": [
+      "Keep the left elbow slightly forward (not flared out wide)",
+      "Stack wrist directly above the elbow",
+      "Reduce the weight if the elbow keeps drifting outward"
+    ],
+    "body_parts": ["left elbow", "left shoulder", "left wrist"],
+    "side": "left",
+    "priority": "primary"
+  },
+
+  {
+    "id": "shoulder_press_left_elbow_too_close",
+    "exercise": "dumbbell shoulder press",
+    "type": "primary_error",
+    "pattern": {
+      "features": ["x_13"],
+      "exceed_rate_level": "medium_or_higher",
+      "mean_direction_signs": { "x_13": "negative" },
+      "mean_error_level": "medium_or_higher",
+      "direction_trend": "mostly_negative",
+      "error_trend": "stable_or_rising"
+    },
+    "meaning": "Left elbow moves too close (too tucked inward) compared to the expected correct shoulder press path.",
+    "feedback": "Your left elbow tucks in too much during the shoulder press. Keep a natural elbow position and press straight up.",
+    "correction_tips": [
+      "Keep a natural elbow angle (don’t squeeze elbows too close)",
+      "Press vertically with steady control",
+      "Maintain stable spacing between both arms"
+    ],
+    "body_parts": ["left elbow", "left shoulder", "left wrist"],
+    "side": "left",
+    "priority": "primary"
+  },
+
+  {
+    "id": "shoulder_press_right_elbow_too_wide",
+    "exercise": "dumbbell shoulder press",
+    "type": "primary_error",
+    "pattern": {
+      "features": ["x_14"],
+      "exceed_rate_level": "medium_or_higher",
+      "mean_direction_signs": { "x_14": "negative" },
+      "mean_error_level": "medium_or_higher",
+      "direction_trend": "mostly_negative",
+      "error_trend": "stable_or_rising"
+    },
+    "meaning": "Right elbow moves too wide (away from the body) compared to the expected correct shoulder press path.",
+    "feedback": "Your right elbow drifts too wide during the shoulder press. Keep the elbow slightly forward and stacked under the wrist.",
+    "correction_tips": [
+      "Keep the right elbow slightly forward (not flared out wide)",
+      "Stack wrist directly above the elbow",
+      "Lower the weight if the elbow keeps drifting outward"
+    ],
+    "body_parts": ["right elbow", "right shoulder", "right wrist"],
+    "side": "right",
+    "priority": "primary"
+  },
+
+  {
+    "id": "shoulder_press_right_elbow_too_close",
+    "exercise": "dumbbell shoulder press",
+    "type": "primary_error",
+    "pattern": {
+      "features": ["x_14"],
+      "exceed_rate_level": "medium_or_higher",
+      "mean_direction_signs": { "x_14": "positive" },
+      "mean_error_level": "medium_or_higher",
+      "direction_trend": "mostly_positive",
+      "error_trend": "stable_or_rising"
+    },
+    "meaning": "Right elbow moves too close (too tucked inward) compared to the expected correct shoulder press path.",
+    "feedback": "Your right elbow tucks in too much during the shoulder press. Keep a natural elbow position and press straight up.",
+    "correction_tips": [
+      "Keep a natural elbow angle (don’t squeeze elbows too close)",
+      "Press vertically without drifting inward",
+      "Keep both arms symmetrical"
+    ],
+    "body_parts": ["right elbow", "right shoulder", "right wrist"],
+    "side": "right",
+    "priority": "primary"
+  },
+
+  {
+    "id": "shoulder_press_both_elbows_too_wide",
+    "exercise": "dumbbell shoulder press",
+    "type": "primary_error",
+    "pattern": {
+      "features": ["x_13", "x_14"],
+      "exceed_rate_level": "medium_or_higher",
+      "mean_direction_signs": {
+        "x_13": "positive",
+        "x_14": "negative"
+      },
+      "mean_error_level": "medium_or_higher",
+      "direction_trend": "consistent_outward",
+      "error_trend": "stable_or_rising"
+    },
+    "meaning": "Both elbows move too wide (flare outward), reducing stability and wrist-over-elbow stacking.",
+    "feedback": "Both elbows flare out during the shoulder press. Keep elbows slightly forward and stacked under the wrists.",
+    "correction_tips": [
+      "Keep both elbows slightly forward instead of flaring out wide",
+      "Stack wrists directly over elbows",
+      "Reduce weight and control the press path"
+    ],
+    "body_parts": ["elbows", "shoulders", "wrists"],
+    "side": "both",
+    "priority": "primary"
+  },
+
+  {
+    "id": "shoulder_press_both_elbows_too_close",
+    "exercise": "dumbbell shoulder press",
+    "type": "primary_error",
+    "pattern": {
+      "features": ["x_13", "x_14"],
+      "exceed_rate_level": "medium_or_higher",
+      "mean_direction_signs": {
+        "x_13": "negative",
+        "x_14": "positive"
+      },
+      "mean_error_level": "medium_or_higher",
+      "direction_trend": "consistent_inward",
+      "error_trend": "stable_or_rising"
+    },
+    "meaning": "Both elbows move too close (over-tucked inward), reducing a natural press path.",
+    "feedback": "Both elbows tuck in too much during the shoulder press. Keep a natural elbow position and press straight up.",
+    "correction_tips": [
+      "Keep a natural elbow position (don’t squeeze elbows inward)",
+      "Maintain stable spacing between both arms",
+      "Press vertically with steady control"
+    ],
+    "body_parts": ["elbows", "shoulders", "wrists"],
+    "side": "both",
+    "priority": "primary"
+  },
+
+  {
+    "id": "shoulder_press_left_elbow_y_too_high_top_half_fast",
+    "exercise": "dumbbell shoulder press",
+    "type": "primary_error",
+    "pattern": {
+      "features": ["y_13"],
+      "exceed_rate_level": "medium_or_higher",
+      "mean_direction_signs": { "y_13": "negative" },
+      "mean_error_level": "medium_or_higher",
+      "direction_trend": "mostly_negative",
+      "error_trend": "stable_or_rising"
+    },
+    "meaning": "Left elbow stays higher than expected. This suggests top-half partial reps, pressing up too fast, or lowering too slowly near the top.",
+    "feedback": "Your left elbow stays too high during the press. You may be rushing the press or not lowering fully. Use full range and a balanced tempo.",
+    "correction_tips": [
+      "Lower to a comfortable bottom position each rep",
+      "Avoid explosive fast pressing",
+      "Lower smoothly (don’t stay too long at the top)"
+    ],
+    "body_parts": ["left elbow", "left shoulder"],
+    "side": "left",
+    "priority": "primary"
+  },
+
+  {
+    "id": "shoulder_press_right_elbow_y_too_high_top_half_fast",
+    "exercise": "dumbbell shoulder press",
+    "type": "primary_error",
+    "pattern": {
+      "features": ["y_14"],
+      "exceed_rate_level": "medium_or_higher",
+      "mean_direction_signs": { "y_14": "negative" },
+      "mean_error_level": "medium_or_higher",
+      "direction_trend": "mostly_negative",
+      "error_trend": "stable_or_rising"
+    },
+    "meaning": "Right elbow stays higher than expected. This suggests top-half partial reps, pressing up too fast, or lowering too slowly near the top.",
+    "feedback": "Your right elbow stays too high during the press. You may be rushing the press or not lowering fully. Use full range and a balanced tempo.",
+    "correction_tips": [
+      "Lower to a comfortable bottom position each rep",
+      "Avoid rushing the upward press",
+      "Lower at a steady speed (don’t hold too long at the top)"
+    ],
+    "body_parts": ["right elbow", "right shoulder"],
+    "side": "right",
+    "priority": "primary"
+  },
+
+  {
+    "id": "shoulder_press_left_elbow_y_too_low_bottom_partial_slow_push",
+    "exercise": "dumbbell shoulder press",
+    "type": "primary_error",
+    "pattern": {
+      "features": ["y_13"],
+      "exceed_rate_level": "medium_or_higher",
+      "mean_direction_signs": { "y_13": "positive" },
+      "mean_error_level": "medium_or_higher",
+      "direction_trend": "mostly_positive",
+      "error_trend": "stable_or_rising"
+    },
+    "meaning": "Left elbow stays lower than expected. This suggests bottom-part partial reps, very slow pressing, or dropping down too fast.",
+    "feedback": "Your left elbow stays too low during the press. You may be pressing too slowly or dropping too fast. Press fully up and control the lowering.",
+    "correction_tips": [
+      "Press fully upward each rep",
+      "Use a steady tempo for both up and down",
+      "Avoid dropping quickly at the bottom"
+    ],
+    "body_parts": ["left elbow", "left shoulder"],
+    "side": "left",
+    "priority": "primary"
+  },
+
+  {
+    "id": "shoulder_press_right_elbow_y_too_low_bottom_partial_slow_push",
+    "exercise": "dumbbell shoulder press",
+    "type": "primary_error",
+    "pattern": {
+      "features": ["y_14"],
+      "exceed_rate_level": "medium_or_higher",
+      "mean_direction_signs": { "y_14": "positive" },
+      "mean_error_level": "medium_or_higher",
+      "direction_trend": "mostly_positive",
+      "error_trend": "stable_or_rising"
+    },
+    "meaning": "Right elbow stays lower than expected. This suggests bottom-part partial reps, very slow pressing, or dropping down too fast.",
+    "feedback": "Your right elbow stays too low during the press. You may be pressing too slowly or dropping too fast. Press fully up and control the lowering.",
+    "correction_tips": [
+      "Press fully upward each rep",
+      "Control both the press and the lowering phase",
+      "Avoid letting the elbow drop quickly at the bottom"
+    ],
+    "body_parts": ["right elbow", "right shoulder"],
+    "side": "right",
+    "priority": "primary"
+  },
+
+  {
+    "id": "shoulder_press_both_elbows_y_too_high_top_half_fast",
+    "exercise": "dumbbell shoulder press",
+    "type": "primary_error",
+    "pattern": {
+      "features": ["y_13", "y_14"],
+      "exceed_rate_level": "medium_or_higher",
+      "mean_direction_signs": {
+        "y_13": "negative",
+        "y_14": "negative"
+      },
+      "mean_error_level": "medium_or_higher",
+      "direction_trend": "mostly_negative",
+      "error_trend": "stable_or_rising"
+    },
+    "meaning": "Both elbows stay higher than expected. This indicates top-half partial reps, fast pressing, or slow lowering near the top.",
+    "feedback": "Both elbows stay too high during the press. Lower fully and use a smooth, balanced tempo.",
+    "correction_tips": [
+      "Use full range: lower to a comfortable bottom position",
+      "Avoid explosive pressing",
+      "Lower smoothly without holding too long at the top"
+    ],
+    "body_parts": ["elbows", "shoulders"],
+    "side": "both",
+    "priority": "primary"
+  },
+
+  {
+    "id": "shoulder_press_both_elbows_y_too_low_bottom_partial_slow_push",
+    "exercise": "dumbbell shoulder press",
+    "type": "primary_error",
+    "pattern": {
+      "features": ["y_13", "y_14"],
+      "exceed_rate_level": "medium_or_higher",
+      "mean_direction_signs": {
+        "y_13": "positive",
+        "y_14": "positive"
+      },
+      "mean_error_level": "medium_or_higher",
+      "direction_trend": "mostly_positive",
+      "error_trend": "stable_or_rising"
+    },
+    "meaning": "Both elbows stay lower than expected. This suggests bottom-part partial reps, slow pressing, or fast dropping down.",
+    "feedback": "Both elbows stay too low during the press. Press fully up and control the lowering phase.",
+    "correction_tips": [
+      "Press fully upward each rep",
+      "Use a steady tempo for both up and down",
+      "Avoid dropping quickly at the bottom"
+    ],
+    "body_parts": ["elbows", "shoulders"],
+    "side": "both",
+    "priority": "primary"
+  },
+
+  {
+    "id": "kb_dumbbell_shoulder_press_elbow_x_interpretation",
+    "type": "guide",
+    "pattern": {
+      "features": ["x_13", "x_14"],
+      "mean_direction_signs": {
+        "x_13": "common",
+        "x_14": "common"
+      }
+    },
+    "exercise": "dumbbell shoulder press",
+    "title": "Elbow X-axis difference indicates elbow flaring outward or tucking inward",
+    "what_it_means": "Horizontal (X) elbow differences show whether the elbows drift too wide (flare outward) or too close (over-tuck inward) compared to the expected correct dumbbell shoulder press path.",
+    "keypoints": {
+      "x_13": "left elbow (horizontal)",
+      "x_14": "right elbow (horizontal)"
+    },
+    "direction_rules": {
+      "x_13_positive": "left elbow is wider than correct (flares outward)",
+      "x_13_negative": "left elbow is closer than correct (tucks inward)",
+      "x_14_negative": "right elbow is wider than correct (flares outward)",
+      "x_14_positive": "right elbow is closer than correct (tucks inward)"
+    },
+    "form_reference": "In a correct dumbbell shoulder press, elbows stay slightly forward and stacked under the wrists. Big outward or inward elbow drift usually breaks alignment and reduces stability.",
+    "common_corrections": [
+      "Keep elbows slightly forward (not extreme flare, not extreme tuck)",
+      "Stack wrists above elbows throughout the press",
+      "Use a lighter weight if elbow drift happens"
+    ],
+    "tags": ["elbow", "x-axis", "dumbbell shoulder press", "flare", "tuck", "interpretation", "guide"]
+  },
+
+  {
+    "id": "kb_dumbbell_shoulder_press_elbow_y_interpretation",
+    "type": "guide",
+    "pattern": {
+      "features": ["y_13", "y_14"],
+      "mean_direction_signs": {
+        "y_13": "common",
+        "y_14": "common"
+      }
+    },
+    "exercise": "dumbbell shoulder press",
+    "title": "Elbow Y-axis difference indicates press range depth and tempo imbalance",
+    "what_it_means": "Vertical (Y) elbow differences show whether elbow height stays higher or lower than the expected correct shoulder press path. This often reflects partial range of motion or imbalance in pressing and lowering speed.",
+    "keypoints": {
+      "y_13": "left elbow (vertical)",
+      "y_14": "right elbow (vertical)"
+    },
+    "direction_rules": {
+      "y_negative": "elbow is higher than the correct path (top-half bias, fast press, or slow lowering near the top)",
+      "y_positive": "elbow is lower than the correct path (bottom-half bias, slow press, or fast drop down)"
+    },
+    "form_reference": "In a correct dumbbell shoulder press, elbows follow a smooth up-down path through a full comfortable range, with balanced tempo: controlled press up and controlled lower down.",
+    "common_corrections": [
+      "Use full range (lower to a comfortable bottom, then press to the top)",
+      "Avoid rushing the press or dropping too fast",
+      "Keep a steady tempo and stable alignment"
+    ],
+    "tags": ["elbow", "y-axis", "dumbbell shoulder press", "range of motion", "tempo", "partial reps", "interpretation", "guide"]
+  },
+  {
+  "id": "kb_dumbbell_shoulder_press_shoulder_reference",
+  "type": "guide",
+  "exercise": "dumbbell shoulder press",
+  "pattern": {
+    "features": ["x_11", "x_12", "y_11", "y_12"],
+    "mean_direction_signs": {
+      "x_11": "common",
+      "x_12": "common",
+      "y_11": "common",
+      "y_12": "common"
+    }
+  },
+  "title": "Shoulder keypoints act as reference points in dumbbell shoulder press",
+  "what_it_means": "Shoulder keypoints are the base (anchor) of the movement in a dumbbell shoulder press. Their X and Y variations are expected and do not directly indicate specific form errors.",
+  "usage_rule": "Shoulder X/Y values should not be used as primary error signals. They may be used only as supporting context when wrist or elbow errors are present.",
+  "reference_note": "In shoulder press analysis, wrist and elbow movements provide clearer and more reliable indicators of form quality than shoulder movement.",
+  "tags": ["shoulder", "reference", "anchor", "dumbbell shoulder press", "guide"]
+},{
+  "id": "kb_dumbbell_shoulder_press_hip_reference",
+  "type": "guide",
+  "exercise": "dumbbell shoulder press",
+  "pattern": {
+    "features": ["x_23", "x_24", "y_23", "y_24"],
+    "mean_direction_signs": {
+      "x_23": "common",
+      "x_24": "common",
+      "y_23": "common",
+      "y_24": "common"
+    }
+  },
+  "title": "Hip keypoints act as stability reference in dumbbell shoulder press",
+  "what_it_means": "Hip keypoints mainly represent body stability and posture during the shoulder press. Small hip movements are normal and do not directly represent shoulder press form errors.",
+  "usage_rule": "Hip keypoints should not be treated as primary error indicators. They may be referenced only to confirm overall body stability when multiple upper-body errors are detected.",
+  "reference_note": "Most meaningful shoulder press errors are detected at the wrist and elbow level, not at the hips.",
+  "tags": ["hip", "stability", "reference", "posture", "dumbbell shoulder press", "guide"]
+}
+]

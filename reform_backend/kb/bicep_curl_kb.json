@@ -1,0 +1,711 @@
+[{
+  "id": "curl_right_wrist_grip_too_wide",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_16"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {"x_16":"negative"},
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Right wrist is wider than the expected correct position (grip too wide).",
+  "feedback": "Your right wrist is moving too wide during the curl. Keep both hands about shoulder-width and bring the right hand slightly inward to match the correct grip path.",
+  "correction_tips": [
+    "Keep BOTH hands at about shoulder-width throughout the curl",
+    "Bring the right hand slightly inward and keep the wrist stacked over the forearm",
+    "Curl straight up and down without letting the hands drift sideways"
+  ],
+  "body_parts": ["right wrist", "right forearm"],
+  "side": "right"
+},
+
+
+
+{
+  "id": "curl_left_wrist_grip_too_wide",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_15"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {"x_15":"positive"},
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_positive",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Left wrist is wider than the expected correct position (grip too wide).",
+  "feedback": "Your left wrist is moving too wide during the curl. Keep both hands about shoulder-width and bring the left hand slightly inward to match the correct grip path.",
+  "correction_tips": [
+    "Keep BOTH hands at about shoulder-width throughout the curl",
+    "Bring the left hand slightly inward and keep the wrist stacked over the forearm",
+    "Curl straight up and down without letting the hands drift sideways"
+  ],
+  "body_parts": ["left wrist", "left forearm"],
+  "side": "left"
+},
+
+
+{
+  "id": "curl_left_wrist_grip_too_close",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_15"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {"x_15":"negative"},
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Left wrist moves closer than the expected correct grip position.",
+  "feedback": "Your left wrist moves too close during the curl. Keep both hands about shoulder-width and allow the left hand to move slightly outward to the correct path.",
+  "correction_tips": [
+    "Keep BOTH hands at about shoulder-width",
+    "Avoid pulling the left hand inward",
+    "Keep the wrist aligned with the forearm throughout the curl"
+  ],
+  "body_parts": ["left wrist", "left forearm"],
+  "side": "left"
+},
+{
+  "id": "curl_right_wrist_grip_too_close",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_16"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {"x_16":"positive"},
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_positive",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Right wrist moves closer than the expected correct grip position.",
+  "feedback": "Your right wrist moves too close during the curl. Keep both hands about shoulder-width and allow the right hand to move slightly outward to the correct path.",
+  "correction_tips": [
+    "Keep BOTH hands at about shoulder-width",
+    "Avoid pulling the right hand inward",
+    "Maintain a neutral wrist position"
+  ],
+  "body_parts": ["right wrist", "right forearm"],
+  "side": "right"
+},
+
+
+{
+  "id": "curl_both_wrists_grip_too_wide",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_15", "x_16"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_15": "positive",
+      "x_16": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "consistent_outward",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Both wrists move wider than the expected correct grip position.",
+  "feedback": "Your grip becomes too wide during the curl. Keep both hands close to shoulder-width and curl straight up and down.",
+  "correction_tips": [
+    "Set your grip at about shoulder-width before starting",
+    "Keep both wrists steady and symmetrical",
+    "Avoid letting the hands drift outward during the movement"
+  ],
+  "body_parts": ["wrists", "forearms"],
+  "side": "both"
+},
+
+
+{
+  "id": "curl_both_wrists_grip_too_close",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_15", "x_16"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_15": "negative",
+      "x_16": "positive"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "consistent_inward",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Both wrists move closer than the expected correct grip position.",
+  "feedback": "Your grip becomes too narrow during the curl. Keep both hands about shoulder-width and avoid pulling them inward.",
+  "correction_tips": [
+    "Start with both hands at shoulder-width",
+    "Allow the hands to move naturally without squeezing inward",
+    "Focus on smooth, controlled repetitions"
+  ],
+  "body_parts": ["wrists", "forearms"],
+  "side": "both"
+},
+
+
+
+{
+  "id": "kb_bicep_curl_wrist_x_grip_interpretation",
+  "type": "guide",
+  "pattern": {
+    "features": ["x_15", "x_16"],
+    "mean_direction_signs": {
+      "x_15": "common",
+      "x_16": "common"
+    }
+  },
+  "exercise": "bicep curl",
+  "title": "Wrist X-axis difference indicates grip widening or narrowing",
+  "what_it_means": "Horizontal (X) wrist differences show whether the user’s grip becomes wider or closer compared to the expected correct bicep curl grip path. This is measured relative to the reconstructed normal motion.",
+  "keypoints": {
+    "x_15": "left wrist (horizontal)",
+    "x_16": "right wrist (horizontal)"
+  },
+  "direction_rules": {
+    "x_15_positive": "left hand is wider than the correct grip position",
+    "x_15_negative": "left hand is closer than the correct grip position",
+    "x_16_negative": "right hand is wider than the correct grip position",
+    "x_16_positive": "right hand is closer than the correct grip position"
+  },
+  "grip_rules": {
+    "left_only": "If only the left wrist matches a wide/close pattern, the grip is unstable or asymmetric on the left side.",
+    "right_only": "If only the right wrist matches a wide/close pattern, the grip is unstable or asymmetric on the right side.",
+    "both_wide": "If both wrists indicate wider, the grip becomes too wide overall.",
+    "both_close": "If both wrists indicate closer, the grip becomes too narrow overall."
+  },
+  "correct_form_reference": "In a correct bicep curl, both hands should remain approximately shoulder-width apart and wrists should follow a stable, controlled path without drifting horizontally.",
+  "common_corrections": [
+    "Set your grip at about shoulder-width before starting the curl",
+    "Keep wrists neutral and stacked over the forearms",
+    "Curl straight up and down and avoid sideways movement",
+    "Use controlled reps (reduce speed if hands drift wider/closer)"
+  ],
+  "tags": ["wrist", "grip", "x-axis", "bicep curl", "interpretation", "guide"]
+},
+
+
+
+{
+  "id": "curl_wrist_vertical_instability_with_upper_arm",
+  "exercise": "bicep curl",
+  "type": "secondary_error",
+  "pattern": {
+    "features": ["y_15", "y_16"],
+    "mean_direction_signs": {
+      "y_15": "common",
+      "y_16": "common"
+    },
+    "primary_exceed_rate_level": "medium_or_higher",
+    "primary_error_level": "medium_or_higher",
+    "error_trend": "unstable_or_spiky",
+
+    "supporting_features_any": ["y_11", "y_12", "x_13", "x_14"],
+    "supporting_exceed_rate_level": "medium_or_higher",
+    "supporting_error_level": "medium_or_higher"
+  },
+  "meaning": "Wrist height changes inconsistently due to loss of control, often caused by uneven tempo, fast or slow repetitions, or partial reps combined with elbow or shoulder movement.",
+  "feedback": "Your wrist height changes inconsistently during the curl, suggesting a loss of control. This often happens when reps are too fast, too slow, or not completed fully, and when the elbow or shoulder moves.",
+  "correction_tips": [
+    "Use a steady and consistent lifting speed",
+    "Complete each repetition through a full range of motion",
+    "Keep your elbows close to your sides and shoulders relaxed"
+  ],
+  "body_parts": ["wrist", "elbow", "shoulder"],
+  "priority": "secondary"
+},
+
+
+
+{
+  "id": "curl_partial_top_range_wrist_y",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["y_15", "y_16"],
+    "mean_direction_signs": {
+      "y_15": "common",
+      "y_16": "common"
+    },
+    "mean_error_level": "medium_or_higher",
+    "error_trend": {
+      "early_sequences": "medium_or_higher",
+      "middle_sequences": "lower_or_medium",
+      "late_sequences": "medium_or_higher"
+    }
+  },
+  "meaning": "In this curl, the first several sequences and last several sequences show higher vertical wrist error. This suggests a top-part partial curl, because the curl starts and ends in an upper position instead of starting low and ending low like a full curl.",
+  "feedback": "You are doing only the top part of the bicep curl. Start lower with your arms more extended, then curl up fully, and lower back down fully.",
+  "correction_tips": [
+    "Start the curl with your arms more extended (lower position)",
+    "Lower the weight fully at the end of each rep",
+    "Use slow, controlled reps to keep full range"
+  ],
+  "body_parts": ["wrist", "elbow"],
+  "priority": "primary"
+},
+
+
+{
+  "id": "curl_partial_bottom_range_wrist_y",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["y_15", "y_16"],
+    "mean_direction_signs": {
+      "y_15": "common",
+      "y_16": "common"
+    },
+    "mean_error_level": "medium_or_higher",
+    "error_trend": {
+      "early_sequences": "lower_or_medium",
+      "middle_sequences": "medium_or_higher",
+      "late_sequences": "lower_or_medium"
+    }
+  },
+  "meaning": "In this curl, the middle several sequences show higher vertical wrist error. The middle part represents the top of the curl in a full repetition. This suggests a bottom-part partial curl, because the curl does not reach the correct top position (the top is below the expected top), so the middle part becomes more abnormal.",
+  "feedback": "You are doing only the bottom part of the bicep curl. Curl the weight higher until you reach the full top position, then lower it back down with control.",
+  "correction_tips": [
+    "Curl higher until your biceps fully contract at the top",
+    "Pause briefly at the top to confirm full range",
+    "Avoid stopping the curl early"
+  ],
+  "body_parts": ["wrist", "elbow"],
+  "priority": "primary"
+},
+
+
+
+{
+  "id": "curl_left_elbow_outward",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_13"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_13": "positive"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_positive",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Left elbow moves outward (away from the body) compared to the expected correct curl path.",
+  "feedback": "Your left elbow moves outward during the curl. Keep your left elbow closer to your side to maintain strict form.",
+  "correction_tips": [
+    "Pin your left elbow to your side",
+    "Avoid flaring the elbow outward",
+    "Use slower, controlled reps"
+  ],
+  "body_parts": ["left elbow"],
+  "side": "left",
+  "priority": "primary"
+},
+
+
+{
+  "id": "curl_left_elbow_inward",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_13"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_13": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Left elbow moves inward (too close to the body) compared to the expected correct curl path.",
+  "feedback": "Your left elbow moves inward during the curl. Keep your left elbow stable at a natural position near your side.",
+  "correction_tips": [
+    "Keep the left elbow stable (don’t squeeze inward)",
+    "Maintain a natural elbow position near the torso",
+    "Focus on moving only the forearm"
+  ],
+  "body_parts": ["left elbow"],
+  "side": "left",
+  "priority": "primary"
+},
+
+
+{
+  "id": "curl_right_elbow_outward",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_14"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_14": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Right elbow moves outward (away from the body) compared to the expected correct curl path.",
+  "feedback": "Your right elbow moves outward during the curl. Keep your right elbow closer to your side to maintain strict form.",
+  "correction_tips": [
+    "Pin your right elbow to your side",
+    "Avoid flaring the elbow outward",
+    "Reduce the weight if the elbow drifts"
+  ],
+  "body_parts": ["right elbow"],
+  "side": "right",
+  "priority": "primary"
+},
+
+
+{
+  "id": "curl_right_elbow_inward",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_14"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_14": "positive"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_positive",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Right elbow moves inward (too close to the body) compared to the expected correct curl path.",
+  "feedback": "Your right elbow moves inward during the curl. Keep your right elbow stable at a natural position near your side.",
+  "correction_tips": [
+    "Keep the right elbow stable (don’t squeeze inward)",
+    "Maintain a natural elbow position near the torso",
+    "Focus on smooth, controlled reps"
+  ],
+  "body_parts": ["right elbow"],
+  "side": "right",
+  "priority": "primary"
+},
+
+
+
+{
+  "id": "curl_both_elbows_outward",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_13", "x_14"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_13": "positive",
+      "x_14": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "consistent_outward",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Both elbows move outward (away from the body), reducing strict bicep isolation.",
+  "feedback": "Both elbows flare outward during the curl. Keep both elbows close to your sides to maintain strict form.",
+  "correction_tips": [
+    "Pin both elbows to your sides",
+    "Curl without letting elbows flare out",
+    "Lower the weight and control the motion"
+  ],
+  "body_parts": ["elbows"],
+  "side": "both",
+  "priority": "primary"
+},
+
+
+
+{
+  "id": "curl_both_elbows_inward",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["x_13", "x_14"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "x_13": "negative",
+      "x_14": "positive"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "consistent_inward",
+    "error_trend": "stable_or_rising"
+  },
+  "meaning": "Both elbows move inward too much compared to the expected correct curl path, causing unstable elbow positioning.",
+  "feedback": "Both elbows move inward during the curl. Keep both elbows stable in a natural position near your sides.",
+  "correction_tips": [
+    "Keep both elbows steady (don’t squeeze inward)",
+    "Maintain a comfortable elbow position near the torso",
+    "Move only the forearms during the curl"
+  ],
+  "body_parts": ["elbows"],
+  "side": "both",
+  "priority": "primary"
+},
+
+
+{
+  "id": "kb_bicep_curl_elbow_x_interpretation",
+  "type": "guide",
+  "exercise": "bicep curl",
+  "pattern": {
+    "features": ["x_13", "x_14"],
+    "mean_direction_signs": {
+      "x_13": "common",
+      "x_14": "common"
+    }
+  },
+  "title": "Elbow X-axis difference indicates elbow drifting outward or inward",
+  "what_it_means": "Horizontal (X) elbow differences show whether the user’s elbow drifts outward (away from the torso) or inward (too close), relative to the expected correct curl path learned by the model.",
+  "keypoints": {
+    "x_13": "left elbow (horizontal)",
+    "x_14": "right elbow (horizontal)"
+  },
+  "direction_rules": {
+    "x_13_positive": "left elbow moves outward (away from body)",
+    "x_13_negative": "left elbow moves inward (closer to body)",
+    "x_14_negative": "right elbow moves outward (away from body)",
+    "x_14_positive": "right elbow moves inward (closer to body)"
+  },
+  "form_reference": "In a strict bicep curl, elbows should stay stable near the sides. Large, consistent elbow X deviations indicate elbow drift, which often reduces bicep isolation and can introduce swinging.",
+  "common_corrections": [
+    "Keep elbows pinned near the torso",
+    "Avoid elbow flaring outward or squeezing inward",
+    "Use slower, controlled reps and reduce weight if elbows drift"
+  ],
+  "tags": ["elbow", "x-axis", "drift", "bicep curl", "guide"]
+},
+
+
+
+{
+  "id": "curl_left_elbow_vertical_lift",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["y_13"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "y_13": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "rising"
+  },
+  "meaning": "Left elbow lifts upward during the curl instead of staying at a stable height. This usually indicates shoulder involvement or loss of strict form.",
+  "feedback": "Your left elbow lifts up during the curl. Keep your left elbow at a fixed height and avoid using your shoulder to lift the weight.",
+  "correction_tips": [
+    "Relax your shoulders and keep them down",
+    "Fix your left elbow position near your side",
+    "Reduce the weight if your elbow keeps lifting"
+  ],
+  "body_parts": ["left elbow", "left shoulder"],
+  "side": "left",
+  "priority": "primary"
+},
+
+
+
+{
+  "id": "curl_right_elbow_vertical_lift",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["y_14"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "y_14": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "rising"
+  },
+  "meaning": "Right elbow lifts upward during the curl instead of staying at a stable height. This usually indicates shoulder involvement or loss of strict form.",
+  "feedback": "Your right elbow lifts up during the curl. Keep your right elbow at a fixed height and avoid using your shoulder to lift the weight.",
+  "correction_tips": [
+    "Keep your shoulders relaxed and down",
+    "Fix your right elbow position near your side",
+    "Slow down and control the curl"
+  ],
+  "body_parts": ["right elbow", "right shoulder"],
+  "side": "right",
+  "priority": "primary"
+},
+
+
+{
+  "id": "curl_both_elbows_vertical_lift",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["y_13", "y_14"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "y_13": "negative",
+      "y_14": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "rising"
+  },
+  "meaning": "Both elbows lift upward during the curl instead of staying at a stable height. This strongly suggests shoulder involvement and loss of strict bicep isolation.",
+  "feedback": "Both elbows lift up during the curl. Keep your elbows at a fixed height and avoid using your shoulders to lift the weight.",
+  "correction_tips": [
+    "Keep both shoulders down and relaxed",
+    "Pin both elbows near your sides and keep them at the same height",
+    "Reduce weight and use slower, controlled reps"
+  ],
+  "body_parts": ["elbows", "shoulders"],
+  "side": "both",
+  "priority": "primary"
+},
+
+
+{
+  "id": "kb_bicep_curl_elbow_y_interpretation",
+  "type": "guide",
+  "exercise": "bicep curl",
+  "pattern": {
+    "features": ["y_13", "y_14"],
+    "mean_direction_signs": {
+      "y_13": "negative",
+      "y_14": "negative"
+    }
+  },
+  "title": "Elbow Y-axis difference indicates elbow height changes (often shoulder cheating)",
+  "what_it_means": "Vertical (Y) elbow differences show whether the elbow height changes compared to the expected correct curl path. This does not represent forward/backward motion; it represents up/down elbow movement.",
+  "keypoints": {
+    "y_13": "left elbow (vertical)",
+    "y_14": "right elbow (vertical)"
+  },
+  "direction_rules": {
+    "y_negative": "elbow is higher than expected (elbow lifting up)",
+    "y_positive": "elbow is lower than expected (elbow dropping down)"
+  },
+  "form_reference": "In a strict bicep curl, elbows should stay at a stable height near the sides. Upward elbow lifting often indicates shoulder involvement, loss of strict form, or using momentum.",
+  "common_corrections": [
+    "Keep elbows at a fixed height near the torso",
+    "Keep shoulders relaxed and down",
+    "Slow the repetition and reduce weight if elbows lift"
+  ],
+  "tags": ["elbow", "y-axis", "height", "shoulder cheating", "bicep curl", "guide"]
+},
+
+
+
+{
+  "id": "curl_shoulder_alignment_support",
+  "exercise": "bicep curl",
+  "type": "supporting_signal",
+  "pattern": {
+    "features": ["x_11", "x_12"],
+    "mean_direction_signs": {
+      "x_11": "common",
+      "x_12": "common"
+    },
+    "exceed_rate_level": "medium_or_higher",
+    "mean_error_level": "medium_or_higher"
+  },
+  "meaning": "Shoulder horizontal movement suggests arm alignment or grip width issues rather than a direct shoulder problem.",
+  "usage_rule": "Only apply when wrist or elbow X-axis errors are also present.",
+  "feedback_hint": "Check grip width and elbow position; shoulders should stay relaxed and still.",
+  "body_parts": ["shoulder", "arm"],
+  "priority": "supporting"
+},
+
+
+{
+  "id": "curl_controlled_shoulder_assist_y",
+  "exercise": "bicep curl",
+  "type": "secondary_error",
+  "pattern": {
+    "features": ["y_11", "y_12"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "y_11": "negative",
+      "y_12": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "mostly_negative",
+    "error_trend": "stable_or_rising",
+    "not_when": {
+      "direction_trend": ["unstable_or_alternating"]
+    },
+    "supporting_features_any": ["x_13", "x_14", "y_13", "y_14"],
+    "supporting_exceed_rate_level": "medium_or_higher"
+  },
+  "meaning": "Shoulders lift slightly in a controlled way, reducing bicep isolation but without full body momentum.",
+  "feedback": "Your shoulders assist the curl slightly. Keep them relaxed and let your biceps do the work.",
+  "correction_tips": [
+    "Relax your shoulders",
+    "Pin your elbows near your sides",
+    "Reduce the weight if needed"
+  ],
+  "body_parts": ["shoulders", "elbows"],
+  "priority": "secondary"
+},
+
+
+
+{
+  "id": "kb_bicep_curl_shoulder_y_interpretation",
+  "type": "guide",
+  "exercise": "bicep curl",
+  "title": "Shoulder Y-axis difference indicates shoulder lifting (cheating) during curls",
+    "pattern": {
+    "features": ["y_11", "y_12"],
+    "mean_direction_signs": {
+      "y_11": "common",
+      "y_12": "common"
+    }
+  },
+  "what_it_means": "Vertical (Y) shoulder differences indicate changes in shoulder height compared to the expected correct curl motion. Shoulder lifting often happens when the user uses the shoulder to assist the curl instead of keeping strict bicep isolation.",
+  "keypoints": {
+    "y_11": "left shoulder (vertical)",
+    "y_12": "right shoulder (vertical)"
+  },
+  "direction_rules": {
+    "y_negative": "shoulder is higher than expected (shoulder lifts up)",
+    "y_positive": "shoulder is lower than expected (shoulder drops down)"
+  },
+  "usage_rule": "Shoulder Y errors should be treated as a secondary/supporting signal and used mainly when elbow drift or elbow lifting is also present.",
+  "form_reference": "In a strict bicep curl, shoulders should stay relaxed and stable while elbows remain near the sides and only the forearms move.",
+  "common_corrections": [
+    "Keep shoulders down and relaxed",
+    "Pin elbows near the torso",
+    "Reduce weight and slow down the repetitions"
+  ],
+  "tags": ["shoulder", "y-axis", "cheating", "bicep curl", "guide"]
+},
+
+
+{
+  "id": "curl_upper_body_momentum_shoulders_y",
+  "exercise": "bicep curl",
+  "type": "primary_error",
+  "pattern": {
+    "features": ["y_11", "y_12"],
+    "exceed_rate_level": "medium_or_higher",
+    "mean_direction_signs": {
+      "y_11": "negative",
+      "y_12": "negative"
+    },
+    "mean_error_level": "medium_or_higher",
+    "direction_trend": "unstable_or_alternating"
+  },
+  "meaning": "Shoulders lift and move during the curl, suggesting upper-body momentum instead of strict bicep isolation.",
+  "feedback": "You are using upper-body momentum during the curl. Your shoulders lift and move, which reduces bicep work and can increase strain on your lower back.",
+  "correction_tips": [
+    "Keep your shoulders down and your torso still",
+    "Brace your core before each rep",
+    "Reduce the weight and perform slow, controlled curls"
+  ],
+  "body_parts": ["shoulders", "torso", "lower back"],
+  "risk_note": "Using momentum can reduce bicep activation and increase lower-back strain.",
+  "side": "both",
+  "priority": "primary"
+}
+]
+
+
