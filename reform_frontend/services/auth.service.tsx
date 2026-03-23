@@ -13,6 +13,7 @@ async function handleResponse(res: Response) {
   return data;
 }
 
+// user login
 export async function apiLogin(payload: LoginPayload) {
   const res = await fetch(`${API_BASE}/api/auth/signin`, {
     method: "POST",
@@ -22,6 +23,7 @@ export async function apiLogin(payload: LoginPayload) {
   return handleResponse(res); // { token, user }
 }
 
+// user registration
 export async function apiSignup(payload: SignupPayload) {
   const res = await fetch(`${API_BASE}/api/auth/signup`, {
     method: "POST",

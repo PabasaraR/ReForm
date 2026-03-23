@@ -5,7 +5,7 @@ import tensorflow as tf
 import numpy as np
 
 # import configuration values
-from pipeline.config import SEQ_LEN, TEST_STRIDE, BAD_RATIO_LIMIT, FEATURE_BAD_LIMIT
+from pipeline.config import SEQ_LEN, TEST_STRIDE, BAD_RATIO_LIMIT, FEATURE_BAD_LIMIT_CURL, FEATURE_BAD_LIMIT_SHOULDER, FEATURE_BAD_LIMIT
 
 # import processing modules
 from processors.keypoint_extractor import KeypointExtractor
@@ -59,6 +59,8 @@ class VideoAnalyzer:
 
         return self.model_cache[model_path], self.threshold_cache[threshold_path]
     
+    #   This is the main function analyzes an exercise video by extracting body keypoints, comparing them with a trained model to detect mistakes, 
+    #   and preparing feedback about the user’s posture
     def analyze_video(
         self,
         video_path: str,
@@ -68,7 +70,6 @@ class VideoAnalyzer:
         exercise_name: str,
         max_kb: int = 8
     ):
-        """Analyze video - same logic as original"""
 
         # Load model + threshold
         model, threshold_feat = self.get_model_and_threshold(model_path, threshold_path)
@@ -88,8 +89,8 @@ class VideoAnalyzer:
         if len(X) == 0:
             return {"error": "No valid sequences created (too many missing values)."}
 
-        # Step 4: Model errors + directions
-        reconstructed_data = model.predict(X, verbose=0)            # predict once
+        # Step 4: predict once
+        reconstructed_data = model.predict(X, verbose=0)            
 
         # calculate reconstruction error and direction
         errs, errs_di = self.error_calculator.reconstruction_error_and_direction(
@@ -110,15 +111,24 @@ class VideoAnalyzer:
         exceed = errs > threshold_feat
         # calculate ratio of bad features per sequence
         seq_bad_ratio = np.mean(exceed, axis=1)
+
+        # choose feature bad limit based on exercise
+        if exercise_name == "barbell_curl":
+            feature_bad_limit = FEATURE_BAD_LIMIT_CURL
+        elif exercise_name == "dumbbell_shoulder_press":
+            feature_bad_limit = FEATURE_BAD_LIMIT_SHOULDER
+        else:
+            feature_bad_limit = FEATURE_BAD_LIMIT
+
         # mark sequence as bad if many features exceed
-        seq_is_bad = seq_bad_ratio > FEATURE_BAD_LIMIT
+        seq_is_bad = seq_bad_ratio > feature_bad_limit
         # calculate overall bad sequence ratio
         bad_ratio = float(np.mean(seq_is_bad))
         # final label decision
         label = "CORRECT" if bad_ratio <= BAD_RATIO_LIMIT else "WRONG"
         mean_error = float(np.mean(errs))
 
-        # Step 5: build detailed error report for LLM
+        # Step 5: build detailed prompt for LLM
         first_bad_sequence, first_bad_frame, sequence_keypoint_errors = self.prompt_builder.build_sequence_error_report(
             errs=errs,
             exceed=exceed,

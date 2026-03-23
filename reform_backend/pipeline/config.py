@@ -19,4 +19,6 @@ SMOOTH_POLY = 2
 EPS = 1e-6                          # Small value to avoid division by zero during shoulder-width normalization
 
 BAD_RATIO_LIMIT = 0.20
+FEATURE_BAD_LIMIT_CURL = 0.38
+FEATURE_BAD_LIMIT_SHOULDER = 0.38
 FEATURE_BAD_LIMIT = 0.25

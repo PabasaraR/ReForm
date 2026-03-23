@@ -63,5 +63,5 @@ class KeypointExtractor:
         test_video_capture.release()
         pose.close()
 
-        # return collected data into pandas DataFrame
+        # return collected data 
         return pd.DataFrame(rows)

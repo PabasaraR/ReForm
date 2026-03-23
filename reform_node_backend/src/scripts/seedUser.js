@@ -12,7 +12,7 @@ async function seed() {
 
   const existing = await User.findOne({ email });
   if (existing) {
-    console.log("✅ User already exists:", email);
+    console.log(" User already exists:", email);
     process.exit(0);
   }
 
@@ -20,7 +20,7 @@ async function seed() {
 
   await User.create({ fullName, email, passwordHash });
 
-  console.log("✅ Seeded user:");
+  console.log("Seeded user:");
   console.log("Email:", email);
   console.log("Password:", password);
   process.exit(0);

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
-import { View, Dimensions } from "react-native"
+import { View, LayoutChangeEvent } from "react-native"
 import Svg, { G, Circle, Ellipse, Rect, Path } from "react-native-svg"
 
 type Frame16 = number[]
@@ -58,54 +58,17 @@ function mid(a: Point, b: Point): Point {
   return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
 }
 
-function buildScreenMap(W: number, H: number, frames: unknown) {
-  const safeFrames: Frames = Array.isArray(frames) ? (frames as Frames) : []
+function buildScreenMap(containerW: number, containerH: number) {
+  const centerX = containerW / 2
+  const centerY = containerH / 2
 
-  let minX = Infinity
-  let maxX = -Infinity
-  let minY = Infinity
-  let maxY = -Infinity
-
-  for (const f of safeFrames) {
-    if (!Array.isArray(f) || f.length !== 16) continue
-    for (let i = 0; i < 8; i++) {
-      const x = f[i]
-      const y = f[i + 8]
-      if (!isFinite(x) || !isFinite(y)) continue
-      if (x < minX) minX = x
-      if (x > maxX) maxX = x
-      if (y < minY) minY = y
-      if (y > maxY) maxY = y
-    }
-  }
-
-  if (!isFinite(minX)) {
-    minX = -1.5
-    maxX = 1.5
-    minY = -2.2
-    maxY = 0.5
-  }
-
-  const dataSpanX = maxX - minX
-  const dataSpanY = maxY - minY
-
-  const padTop = dataSpanY * 0.30
-  const padBottom = dataSpanY * 0.12
-  const padSide = dataSpanX * 0.20
-
-  const totalSpanX = dataSpanX + padSide * 2
-  const totalSpanY = dataSpanY + padTop + padBottom
-
-  const screenPadding = 20
-  const scaleX = (W - screenPadding * 2) / totalSpanX
-  const scaleY = (H - screenPadding * 2) / totalSpanY
-  const scale = Math.min(scaleX, scaleY)
-
-  const originX = screenPadding - (minX - padSide) * scale
-  const originY = screenPadding - (minY - padTop) * scale
+  const pixelsPerUnit = Math.min(containerW, containerH) * 0.22
 
   function toScreen(p: Point): Point {
-    return { x: originX + p.x * scale, y: originY + p.y * scale }
+    return {
+      x: centerX + p.x * pixelsPerUnit,
+      y: centerY + p.y * pixelsPerUnit,
+    }
   }
 
   return { toScreen }
@@ -137,7 +100,7 @@ function LimbCapsule(props: LimbCapsuleProps) {
 function Head(props: HeadProps) {
   const { cx, cy, size, skinColor } = props
   const rx = size * 0.42
-  const ry = size * 0.50
+  const ry = size * 0.5
 
   return (
     <G>
@@ -173,106 +136,153 @@ function Torso(props: TorsoProps) {
 
 export default function FitnessTrainerPuppetSvg(props: FitnessTrainerPuppetSvgProps) {
   const { frames } = props
-  console.log("Rendering FitnessTrainerPuppetSvg with frames:", frames)
 
   const [frameIndex, setFrameIndex] = useState(0)
-  const totalFrames = Array.isArray(frames) ? frames.length : 0
-  const { width: W, height: H } = Dimensions.get("window")
+  const [boxW, setBoxW] = useState(0)
+  const [boxH, setBoxH] = useState(0)
 
-  const { toScreen } = useMemo(() => buildScreenMap(W, H, frames), [W, H, frames])
+  const totalFrames = Array.isArray(frames) ? frames.length : 0
+
+  useEffect(() => {
+    setFrameIndex(0)
+  }, [frames])
 
   useEffect(() => {
     if (!totalFrames) return
+
     const timer = setInterval(() => {
       setFrameIndex((prev) => (prev + 1) % totalFrames)
     }, 1000 / 30)
+
     return () => clearInterval(timer)
   }, [totalFrames])
 
-  const kp = useMemo((): KpMap | null => {
-    if (!totalFrames) return null
-    const f = frames[frameIndex]
-    if (!Array.isArray(f) || f.length !== 16) return null
-    const raw = frameToKP(f)
-    const out: KpMap = {}
-    for (const id of KP_IDS) out[id] = toScreen(raw[id])
-    return out
-  }, [frameIndex, totalFrames, toScreen, frames])
+  const onLayoutBox = (e: LayoutChangeEvent) => {
+    const { width, height } = e.nativeEvent.layout
+    setBoxW(width)
+    setBoxH(height)
+  }
 
-  if (!kp) return <View style={{ flex: 1, backgroundColor: "#0F172A" }} />
+  const { toScreen } = useMemo(() => {
+    return buildScreenMap(boxW || 300, boxH || 300)
+  }, [boxW, boxH, frames])
 
-  const LS = kp[11]
-  const RS = kp[12]
-  const LE = kp[13]
-  const RE = kp[14]
-  const LW = kp[15]
-  const RW = kp[16]
-  const LH = kp[23]
-  const RH = kp[24]
+const kp = useMemo((): KpMap | null => {
+  if (!totalFrames) return null
+  if (!boxW || !boxH) return null
 
-  const unit = dist(LS, RS)
-  const upperArmW = unit * 0.24
-  const foreArmW = unit * 0.19
-  const handR = unit * 0.14
-  const elbowR = unit * 0.12
-  const neckW = unit * 0.20
-  const headSize = unit * 0.95
+  const f = frames[frameIndex]
+  if (!Array.isArray(f) || f.length !== 16) return null
 
-  const sMid = mid(LS, RS)
-  const headCY = sMid.y - headSize * 0.60
+  const raw = frameToKP(f)
 
-  const skin = "#e8c49a"
-  const suit = "#3a3a5c"
-  const arm = "#4a5580"
+  const shoulderMid = mid(raw[11], raw[12])
+  const hipMid = mid(raw[23], raw[24])
+
+  const anchor = {
+    x: hipMid.x,
+    y: (shoulderMid.y + hipMid.y) / 2,
+  }
+
+  const out: KpMap = {}
+
+  for (const id of KP_IDS) {
+    out[id] = toScreen({
+      x: raw[id].x - anchor.x,
+      y: raw[id].y - anchor.y,
+    })
+  }
+
+  return out
+}, [frameIndex, totalFrames, toScreen, frames, boxW, boxH])
+
+  if (!totalFrames) {
+    return <View style={{ flex: 1, backgroundColor: "#0F172A" }} />
+  }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#0F172A" }}>
-      <Svg width={W} height={H}>
-        <Torso
-          lsx={LS.x}
-          lsy={LS.y}
-          rsx={RS.x}
-          rsy={RS.y}
-          lhx={LH.x}
-          lhy={LH.y}
-          rhx={RH.x}
-          rhy={RH.y}
-          color={suit}
-        />
+    <View
+      style={{ flex: 1, backgroundColor: "#0F172A", overflow: "hidden", borderRadius: 12 }}
+      onLayout={onLayoutBox}
+    >
+      {kp ? (
+        <Svg width={boxW} height={boxH}>
+          {(() => {
+            const LS = kp[11]
+            const RS = kp[12]
+            const LE = kp[13]
+            const RE = kp[14]
+            const LW = kp[15]
+            const RW = kp[16]
+            const LH = kp[23]
+            const RH = kp[24]
 
-        <Ellipse
-          cx={(LH.x + RH.x) / 2}
-          cy={(LH.y + RH.y) / 2}
-          rx={dist(LH, RH) / 2 + unit * 0.14}
-          ry={unit * 0.16}
-          fill={suit}
-          opacity={0.9}
-        />
+            const unit = Math.max(dist(LS, RS), 12)
+            const upperArmW = unit * 0.27
+            const foreArmW = unit * 0.19
+            const handR = unit * 0.14
+            const elbowR = unit * 0.12
+            const neckW = unit * 0.2
+            const headSize = unit * 0.95
 
-        <Circle cx={LS.x} cy={LS.y} r={upperArmW * 0.60} fill={arm} />
-        <Circle cx={RS.x} cy={RS.y} r={upperArmW * 0.60} fill={arm} />
+            const sMid = mid(LS, RS)
+            const headCY = sMid.y - headSize * 0.6
 
-        <LimbCapsule ax={LS.x} ay={LS.y} bx={LE.x} by={LE.y} width={upperArmW} color={arm} />
-        <Circle cx={LE.x} cy={LE.y} r={elbowR} fill={arm} />
-        <LimbCapsule ax={LE.x} ay={LE.y} bx={LW.x} by={LW.y} width={foreArmW} color={skin} />
-        <Circle cx={LW.x} cy={LW.y} r={handR} fill={skin} />
+            const skin = "#e8c49a"
+            const suit = "#3a3a5c"
+            const arm = "#4a5580"
 
-        <LimbCapsule ax={RS.x} ay={RS.y} bx={RE.x} by={RE.y} width={upperArmW} color={arm} />
-        <Circle cx={RE.x} cy={RE.y} r={elbowR} fill={arm} />
-        <LimbCapsule ax={RE.x} ay={RE.y} bx={RW.x} by={RW.y} width={foreArmW} color={skin} />
-        <Circle cx={RW.x} cy={RW.y} r={handR} fill={skin} />
+            return (
+              <>
+                <Torso
+                  lsx={LS.x}
+                  lsy={LS.y}
+                  rsx={RS.x}
+                  rsy={RS.y}
+                  lhx={LH.x}
+                  lhy={LH.y}
+                  rhx={RH.x}
+                  rhy={RH.y}
+                  color={suit}
+                />
 
-        <LimbCapsule
-          ax={sMid.x}
-          ay={sMid.y}
-          bx={sMid.x}
-          by={headCY + headSize * 0.40}
-          width={neckW}
-          color={skin}
-        />
+                <Ellipse
+                  cx={(LH.x + RH.x) / 2}
+                  cy={(LH.y + RH.y) / 2}
+                  rx={dist(LH, RH) / 2 + unit * 0.14}
+                  ry={unit * 0.16}
+                  fill={suit}
+                  opacity={0.9}
+                />
 
-        <Head cx={sMid.x} cy={headCY} size={headSize} skinColor={skin} />
-      </Svg>
+                <Circle cx={LS.x} cy={LS.y} r={upperArmW * 0.6} fill={arm} />
+                <Circle cx={RS.x} cy={RS.y} r={upperArmW * 0.6} fill={arm} />
+
+                <LimbCapsule ax={LS.x} ay={LS.y} bx={LE.x} by={LE.y} width={upperArmW} color={arm} />
+                <Circle cx={LE.x} cy={LE.y} r={elbowR} fill={arm} />
+                <LimbCapsule ax={LE.x} ay={LE.y} bx={LW.x} by={LW.y} width={foreArmW} color={skin} />
+                <Circle cx={LW.x} cy={LW.y} r={handR} fill={skin} />
+
+                <LimbCapsule ax={RS.x} ay={RS.y} bx={RE.x} by={RE.y} width={upperArmW} color={arm} />
+                <Circle cx={RE.x} cy={RE.y} r={elbowR} fill={arm} />
+                <LimbCapsule ax={RE.x} ay={RE.y} bx={RW.x} by={RW.y} width={foreArmW} color={skin} />
+                <Circle cx={RW.x} cy={RW.y} r={handR} fill={skin} />
+
+                <LimbCapsule
+                  ax={sMid.x}
+                  ay={sMid.y}
+                  bx={sMid.x}
+                  by={headCY + headSize * 0.4}
+                  width={neckW}
+                  color={skin}
+                />
+
+                <Head cx={sMid.x} cy={headCY} size={headSize} skinColor={skin} />
+              </>
+            )
+          })()}
+        </Svg>
+      ) : null}
     </View>
   )
 }

@@ -2,6 +2,7 @@ import { API_BASE } from "../constants/api";
 import { getToken } from "./token.storage";
 import * as ImagePicker from "expo-image-picker";
 
+// Video analysis api call and related video services
 export async function analyzeVideo(exercise: string, videoAsset: ImagePicker.ImagePickerAsset) {
 
   const token = await getToken();
@@ -23,8 +24,7 @@ export async function analyzeVideo(exercise: string, videoAsset: ImagePicker.Ima
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
-      // IMPORTANT: do NOT manually set Content-Type in React Native for FormData
-      // RN will set proper boundary automatically.
+
     },
     body: formData,
   });
@@ -39,7 +39,7 @@ export async function analyzeVideo(exercise: string, videoAsset: ImagePicker.Ima
   return data; // { videoId, gridFsId, result, streamUrl, createdAt ... }
 }
 
-
+// Get user's video and feedback history
 export async function getMyHistory() {
   const token = await getToken();
   if (!token) throw new Error("No token found. Please sign in again.");
@@ -62,7 +62,7 @@ export async function getMyHistory() {
   return data; // { items: [...] }
 }
 
-
+// Get video stream source for playback
 export async function getStreamSource(videoDocId: string) {
   const token = await getToken();
   if (!token) throw new Error("No token found. Please sign in again.");

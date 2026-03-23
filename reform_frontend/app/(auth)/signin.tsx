@@ -23,7 +23,6 @@ const onSignIn = async () => {
       password,
     });
 
-    // data = { token, user }
     await saveAuth(data.token, data.user);
 
     router.replace("/home");

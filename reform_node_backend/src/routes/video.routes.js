@@ -1,5 +1,4 @@
 // routes/video.routes.js
-
 const express = require("express");
 const multer = require("multer");
 const asyncHandler = require("../utils/asyncHandler");
@@ -20,15 +19,13 @@ const upload = multer({
 // Upload + Analyze
 router.post("/analyze", requireAuth, upload.single("video"), asyncHandler(analyzeAndSave));
 
-// History
+// get user history
 router.get("/me", requireAuth, asyncHandler(getMyHistory));
 
+// video streaming fo ml backend
 router.get("/:gridFsId/public-stream", asyncHandler(require("../controllers/video.public").publicStream));
 
 // Stream (for playing video)
 router.get("/:id/stream", requireAuth, asyncHandler(streamVideoById));
-
-
-
 
 module.exports = router;

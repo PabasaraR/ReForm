@@ -1,18 +1,16 @@
 # models/exercise.py
 from dataclasses import dataclass
-
+# Store configuration details for an exercise
 @dataclass
 class Exercise:
-    """Exercise configuration"""
-    
-    exercise_name: str
-    model_path: str
-    threshold_path: str
-    kb_path: str
-    
+    exercise_name: str      # name of the exercise
+    model_path: str         # path to trained model file
+    threshold_path: str     # path to threshold file
+    kb_path: str            # path to knowledge base file
+
     @classmethod
     def get_config(cls, exercise: str):
-        """Get config by exercise name"""
+        # dictionary storing configs for each exercise
         configs = {
             "barbell_curl": cls(
                 exercise_name="barbell_curl",
@@ -27,8 +25,8 @@ class Exercise:
                 kb_path="kb/shoulder_press_kb.json"
             ),
         }
-        
+        # check if given exercise exists in config
         if exercise not in configs:
             raise ValueError(f"Invalid exercise: {exercise}")
-        
+        # return matching configuration
         return configs[exercise]

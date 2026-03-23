@@ -6,34 +6,29 @@ from dataclasses import dataclass
 # Read configuration values from your pipeline
 from pipeline.config import SEQ_LEN, TEST_STRIDE
 
-
 @dataclass
 class MotionSettings:
     # Holds configuration values for motion rebuilding
     sequence_length: int = SEQ_LEN
     test_stride: int = TEST_STRIDE
     enable_smoothing: bool = False
-    smoothing_window: int = 10
-
+    smoothing_window: int = 60
 
 class HumanMotionService:
-
     # Initialize service with motion settings
     def __init__(self, motion_settings: MotionSettings = None):
         if motion_settings is None:
             motion_settings = MotionSettings()
         self.motion_settings = motion_settings
 
-
     # Main function
     # Receives model output windows with shape N 32 16
     # Returns continuous sequence with shape T 16
     def rebuild_continuous_motion(self,window_outputs):
-
         # Convert input into numpy array
         model_array = np.asarray(window_outputs, dtype=np.float32)
 
-        # Validate input dimension
+        # check input shape is correct
         if model_array.ndim != 3:
             raise ValueError("Input must be shape N 32 16")
 
@@ -65,7 +60,6 @@ class HumanMotionService:
         # Convert back to normal python list for JSON response
         return continuous_motion.astype(np.float32).tolist()
 
-
     # Merge overlapping windows using overlap add averaging
     def _merge_overlapping_windows(self,model_array,stride_value):
 
@@ -74,6 +68,7 @@ class HumanMotionService:
         # Calculate total frames after merging
         total_frames = (number_of_windows - 1) * stride_value + seq_len
 
+        # create empty arrays to store sum and count
         sum_array = np.zeros((total_frames, feature_count), dtype=np.float32)
         count_array = np.zeros((total_frames, 1), dtype=np.float32)
 
@@ -88,7 +83,7 @@ class HumanMotionService:
         # Avoid division by zero
         count_array = np.maximum(count_array, 1.0)
 
-        # Average overlapping regions
+        # average overlapping parts
         return sum_array / count_array
 
 

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  Modal,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,6 +14,7 @@ import VideoResultCard from "../components/VideoResultCard";
 import VideoPlayerModal from "../components/VideoPlayerModal";
 import { getMyHistory } from "../services/video.service";
 import { getUser } from "../services/token.storage";
+import FitnessTrainerPuppetSvg from "@/components/FitnessTrainerPuppetSvg";
 
 type UploadItem = {
   id: string;
@@ -22,6 +24,8 @@ type UploadItem = {
   badRatio: number;
   feedback: string;
   exerciseName: string;
+  originalFrames: any[];
+  reconstructedFrames: any[];
 };
 
 function mapHistoryToUploadItem(v: any): UploadItem {
@@ -44,6 +48,8 @@ function mapHistoryToUploadItem(v: any): UploadItem {
     badRatio: typeof v?.result?.bad_ratio === "number" ? v.result.bad_ratio : 0,
     feedback: v?.result?.feedback || "No feedback available.",
     exerciseName,
+    originalFrames: v?.result?.continuous_frames_before ?? [],
+    reconstructedFrames: v?.result?.continuous_frames_after ?? [],
   };
 }
 
@@ -55,6 +61,10 @@ export default function UserPage() {
 
   const [playerOpen, setPlayerOpen] = useState(false);
   const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
+
+  const [motionOpen, setMotionOpen] = useState(false);
+  const [selectedMotion, setSelectedMotion] = useState<any>(null);
+  const [motionType, setMotionType] = useState("reconstructed");
 
   const loadUser = async () => {
     const storedUser = await getUser();
@@ -68,6 +78,7 @@ export default function UserPage() {
 
       const data = await getMyHistory();
       const items = Array.isArray(data?.items) ? data.items : [];
+      // console.log("Fetched history items:", items[0].result.continuous_frames_after);
       setUploads(items.map(mapHistoryToUploadItem));
     } catch (e: any) {
       setError(e?.message || "Failed to load history");
@@ -98,6 +109,10 @@ export default function UserPage() {
     return (a + b).toUpperCase();
   }, [user.fullName]);
 
+  const onViewMotion = (item: UploadItem) => {
+    setSelectedMotion(item);
+    setMotionOpen(true);
+  };
   return (
     <View style={styles.container}>
       {/* Profile Hero */}
@@ -185,7 +200,11 @@ export default function UserPage() {
           data={uploads}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <VideoResultCard item={item} onWatch={onWatch} />
+            <VideoResultCard
+              item={item}
+              onWatch={onWatch}
+              onViewMotion={onViewMotion}
+            />
           )}
           contentContainerStyle={{ paddingBottom: 30 }}
           showsVerticalScrollIndicator={false}
@@ -206,7 +225,104 @@ export default function UserPage() {
           setSelectedVideoId(null);
         }}
       />
+
+      <Modal transparent visible={motionOpen} animationType="fade">
+        <View style={styles.modalBackdrop}>
+          <View style={styles.motionModalCard}>
+            <View style={styles.motionGlow} />
+
+            <View style={styles.motionHeader}>
+              <View style={styles.motionTitleRow}>
+                <View style={styles.motionIconWrap}>
+                  <Ionicons name="git-compare-outline" size={18} color="#E5E7EB" />
+                </View>
+
+                <View>
+                  <Text style={styles.motionEyebrow}>Movement Review</Text>
+                  <Text style={styles.motionTitle}>Motion Comparison</Text>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                onPress={() => setMotionOpen(false)}
+                style={styles.motionCloseBtn}
+                activeOpacity={0.9}
+              >
+                <Ionicons name="close" size={18} color="#E5E7EB" />
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.motionSwitchRow}>
+              <TouchableOpacity
+                onPress={() => setMotionType("original")}
+                style={[
+                  styles.motionSwitchBtn,
+                  motionType === "original" && styles.motionSwitchBtnActive,
+                ]}
+                activeOpacity={0.9}
+              >
+                <Ionicons
+                  name="play-back-outline"
+                  size={16}
+                  color={motionType === "original" ? "#E5E7EB" : "#94A3B8"}
+                />
+                <Text
+                  style={[
+                    styles.motionSwitchText,
+                    motionType === "original" && styles.motionSwitchTextActive,
+                  ]}
+                >
+                  Before
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => setMotionType("reconstructed")}
+                style={[
+                  styles.motionSwitchBtn,
+                  motionType === "reconstructed" && styles.motionSwitchBtnActive,
+                ]}
+                activeOpacity={0.9}
+              >
+                <Ionicons
+                  name="sparkles-outline"
+                  size={16}
+                  color={motionType === "reconstructed" ? "#E5E7EB" : "#94A3B8"}
+                />
+                <Text
+                  style={[
+                    styles.motionSwitchText,
+                    motionType === "reconstructed" && styles.motionSwitchTextActive,
+                  ]}
+                >
+                  After
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.motionViewerCard}>
+              <FitnessTrainerPuppetSvg
+                frames={
+                  motionType === "original"
+                    ? selectedMotion?.originalFrames
+                    : selectedMotion?.reconstructedFrames
+                }
+              />
+            </View>
+
+            {/* <TouchableOpacity
+              style={styles.motionDoneBtn}
+              onPress={() => setMotionOpen(false)}
+              activeOpacity={0.9}
+            >
+              <Text style={styles.motionDoneBtnText}>Close</Text>
+            </TouchableOpacity> */}
+          </View>
+        </View>
+      </Modal>
     </View>
+
+    
   );
 }
 
@@ -323,4 +439,137 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   emptyText: { color: "#9CA3AF", marginTop: 8, fontWeight: "700" },
+
+  modalBackdrop: {
+  flex: 1,
+  backgroundColor: "rgba(2,6,23,0.75)",
+  justifyContent: "center",
+  padding: 16,
+},
+motionModalCard: {
+  backgroundColor: "#020617",
+  borderRadius: 24,
+  padding: 18,
+  borderWidth: 1,
+  borderColor: "rgba(59,130,246,0.20)",
+  overflow: "hidden",
+},
+
+motionGlow: {
+  position: "absolute",
+  top: -40,
+  right: -30,
+  width: 140,
+  height: 140,
+  borderRadius: 999,
+  backgroundColor: "rgba(59,130,246,0.10)",
+},
+
+motionHeader: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+},
+
+motionTitleRow: {
+  flexDirection: "row",
+  alignItems: "center",
+},
+
+motionIconWrap: {
+  width: 42,
+  height: 42,
+  borderRadius: 14,
+  backgroundColor: "rgba(59,130,246,0.14)",
+  borderWidth: 1,
+  borderColor: "rgba(59,130,246,0.24)",
+  alignItems: "center",
+  justifyContent: "center",
+  marginRight: 12,
+},
+
+motionEyebrow: {
+  color: "#60A5FA",
+  fontSize: 12,
+  fontWeight: "800",
+  marginBottom: 2,
+},
+
+motionTitle: {
+  color: "#E5E7EB",
+  fontWeight: "900",
+  fontSize: 18,
+},
+
+motionCloseBtn: {
+  width: 38,
+  height: 38,
+  borderRadius: 14,
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: "rgba(148,163,184,0.10)",
+  borderWidth: 1,
+  borderColor: "rgba(148,163,184,0.15)",
+},
+
+motionSwitchRow: {
+  flexDirection: "row",
+  gap: 10,
+  marginTop: 18,
+  marginBottom: 14,
+},
+
+motionSwitchBtn: {
+  flex: 1,
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 8,
+  backgroundColor: "#0F172A",
+  borderRadius: 14,
+  paddingVertical: 12,
+  borderWidth: 1,
+  borderColor: "rgba(148,163,184,0.12)",
+},
+
+motionSwitchBtnActive: {
+  backgroundColor: "rgba(59,130,246,0.18)",
+  borderColor: "rgba(59,130,246,0.30)",
+},
+
+motionSwitchText: {
+  color: "#94A3B8",
+  fontWeight: "900",
+},
+
+motionSwitchTextActive: {
+  color: "#E5E7EB",
+},
+
+motionViewerCard: {
+  height: 360,
+  borderRadius: 20,
+  overflow: "hidden",
+  backgroundColor: "#0B1220",
+  borderWidth: 1,
+  borderColor: "rgba(148,163,184,0.12)",
+  padding: 10,
+},
+
+motionDoneBtn: {
+  marginTop: 16,
+  backgroundColor: "#1E293B",
+  borderRadius: 16,
+  paddingVertical: 13,
+  borderWidth: 1,
+  borderColor: "rgba(148,163,184,0.15)",
+},
+
+motionDoneBtnText: {
+  color: "#E5E7EB",
+  fontWeight: "900",
+  textAlign: "center",
+},
+
+
 });

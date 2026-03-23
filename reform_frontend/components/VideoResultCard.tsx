@@ -1,39 +1,38 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
 type VideoItem = {
-  id: string;
-  fileName: string;
-  exerciseName: string; // ✅ added back
-  date: string;
-  label: "Correct" | "Incorrect";
-  badRatio?: number;
-  feedback: string;
-};
+  id: string
+  fileName: string
+  exerciseName: string
+  date: string
+  label: "Correct" | "Incorrect"
+  badRatio: number
+  feedback: string
+  originalFrames: any[]
+  reconstructedFrames: any[]
+}
 
 export default function VideoResultCard({
   item,
   onWatch,
+  onViewMotion,
 }: {
-  item: VideoItem;
-  onWatch: (id: string) => void;
+  item: VideoItem
+  onWatch: (id: string) => void
+  onViewMotion: (item: VideoItem) => void
 }) {
-  const isCorrect = item.label === "Correct";
+  const isCorrect = item.label === "Correct"
 
   return (
     <View style={styles.card}>
       <View style={styles.rowTop}>
         <View style={{ flex: 1 }}>
-          {/* Exercise name */}
           <Text style={styles.exerciseName} numberOfLines={1}>
             {item.exerciseName.replace(/_/g, " ").toUpperCase()}
-            <Text style={styles.fileName} numberOfLines={1}>  ({item.fileName})</Text>
-            
+            <Text style={styles.fileName} numberOfLines={1}>
+              {"  "}({item.fileName})
+            </Text>
           </Text>
-
-          {/* File name (optional but kept)
-          <Text style={styles.fileName} numberOfLines={1}>
-            {item.fileName}
-          </Text> */}
         </View>
 
         <View
@@ -50,21 +49,32 @@ export default function VideoResultCard({
 
       {typeof item.badRatio === "number" ? (
         <Text style={styles.metaText}>
-          Bad ratio: {(item.badRatio * 100).toFixed(1)}%
+          Bad ratio {(item.badRatio * 100).toFixed(1)}%
         </Text>
       ) : null}
 
       <Text style={styles.feedbackLabel}>Feedback</Text>
       <Text style={styles.feedbackText}>{item.feedback}</Text>
 
-      <TouchableOpacity
-        onPress={() => onWatch(item.id)}
-        style={styles.watchBtn}
-      >
-        <Text style={styles.watchText}>Watch Video</Text>
-      </TouchableOpacity>
+      <View style={styles.actionRow}>
+        <TouchableOpacity
+          onPress={() => onWatch(item.id)}
+          style={[styles.actionBtn, styles.watchBtn]}
+          activeOpacity={0.9}
+        >
+          <Text style={styles.actionText}>Watch Video</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => onViewMotion(item)}
+          style={[styles.actionBtn, styles.motionBtn]}
+          activeOpacity={0.9}
+        >
+          <Text style={styles.actionText}>View Motion</Text>
+        </TouchableOpacity>
+      </View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -134,17 +144,28 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 12,
   },
-  watchBtn: {
-    marginTop: 10,
-    backgroundColor: "#1E293B",
+  actionRow: {
+    flexDirection: "row",
+    gap: 10,
+    marginTop: 12,
+  },
+  actionBtn: {
+    flex: 1,
     borderRadius: 10,
     paddingVertical: 10,
     borderWidth: 1,
+  },
+  watchBtn: {
+    backgroundColor: "#1E293B",
     borderColor: "rgba(148,163,184,0.15)",
   },
-  watchText: {
+  motionBtn: {
+    backgroundColor: "rgba(59,130,246,0.16)",
+    borderColor: "rgba(59,130,246,0.30)",
+  },
+  actionText: {
     color: "#E5E7EB",
     fontWeight: "800",
     textAlign: "center",
   },
-});
+})

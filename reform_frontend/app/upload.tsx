@@ -82,8 +82,26 @@ export default function UploadScreen() {
     });
 
     if (!result.canceled) {
-      setVideo(result.assets[0]);
+      const selectedVideo = result.assets[0];
 
+      const fileName = selectedVideo.fileName?.toLowerCase() || "";
+      const uri = selectedVideo.uri?.toLowerCase() || "";
+      const mimeType = selectedVideo.mimeType?.toLowerCase() || "";
+
+      const isMp4 =
+        mimeType === "video/mp4" ||
+        fileName.endsWith(".mp4") ||
+        uri.endsWith(".mp4");
+
+      if (!isMp4) {
+        setLabel("Error");
+        setBadRatio(null);
+        setFeedbackText("Only MP4 videos are allowed.");
+        setShowFeedback(true);
+        return;
+      }
+
+      setVideo(selectedVideo);
       setLabel("");
       setBadRatio(null);
       setFeedbackText("");
@@ -96,7 +114,7 @@ export default function UploadScreen() {
 
     try {
       setIsUploading(true);
-
+      // send video to backend for analysis
       const response = await analyzeVideo(String(exercise), video);
 
       setLabel(response?.result?.label ?? "");
@@ -105,8 +123,8 @@ export default function UploadScreen() {
       setFeedbackText(response?.result?.feedback ?? "No feedback returned.");
       setOriginalFrames(response?.result?.continuous_frames_before ?? []);
       setReconstructedFrames(response?.result?.continuous_frames_after ?? []);
-      console.log("response1?:", response.result.continuous_frames_after)
-      console.log("response2?:", response.result.continuous_frames_before)
+      // console.log("response1?:", response.result.continuous_frames_after)
+      // console.log("response2?:", response.result.continuous_frames_before)
 
       setShowFeedback(true);
     } catch (e: any) {
@@ -208,62 +226,187 @@ export default function UploadScreen() {
       </TouchableOpacity>
 
       {/* Feedback popup */}
-      <Modal transparent visible={showFeedback} animationType="fade" onRequestClose={() => setShowFeedback(false)}>
+      <Modal
+        transparent
+        visible={showFeedback}
+        animationType="fade"
+        onRequestClose={() => setShowFeedback(false)}
+      >
         <View style={styles.modalBackdrop}>
-          <View style={styles.modalCard}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>{modalView === "result" ? "Result" : "Motion"}</Text>
-              <TouchableOpacity onPress={() => setShowFeedback(false)} style={styles.closeIconBtn}>
+          <View style={styles.modalCardModern}>
+            <View style={styles.modalGlow} />
+
+            <View style={styles.modalHeaderModern}>
+              <View style={styles.modalTitleRow}>
+                <View style={styles.modalTitleIconWrap}>
+                  <Ionicons
+                    name={modalView === "result" ? "sparkles-outline" : "walk-outline"}
+                    size={18}
+                    color="#E5E7EB"
+                  />
+                </View>
+
+                <View>
+                  <Text style={styles.modalEyebrow}>Analysis</Text>
+                  <Text style={styles.modalTitleModern}>
+                    {modalView === "result" ? "Workout Result" : "Motion Compare"}
+                  </Text>
+                </View>
+              </View>
+
+              <TouchableOpacity
+                onPress={() => setShowFeedback(false)}
+                style={styles.closeIconBtnModern}
+                activeOpacity={0.85}
+              >
                 <Ionicons name="close" size={18} color="#E5E7EB" />
               </TouchableOpacity>
             </View>
 
-            <View style={{ flexDirection: "row", gap: 10, marginTop: 12 }}>
-              <TouchableOpacity style={styles.switchBtn} onPress={() => setModalView("result")}>
-                <Text style={styles.switchBtnText}>Result</Text>
+            <View style={styles.tabRow}>
+              <TouchableOpacity
+                style={[
+                  styles.tabBtn,
+                  modalView === "result" && styles.tabBtnActive,
+                ]}
+                onPress={() => setModalView("result")}
+                activeOpacity={0.9}
+              >
+                <Ionicons
+                  name="document-text-outline"
+                  size={16}
+                  color={modalView === "result" ? "#E5E7EB" : "#94A3B8"}
+                />
+                <Text
+                  style={[
+                    styles.tabBtnText,
+                    modalView === "result" && styles.tabBtnTextActive,
+                  ]}
+                >
+                  Result
+                </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.switchBtn} onPress={() => setModalView("motion")}>
-                <Text style={styles.switchBtnText}>Motion</Text>
+              <TouchableOpacity
+                style={[
+                  styles.tabBtn,
+                  modalView === "motion" && styles.tabBtnActive,
+                ]}
+                onPress={() => setModalView("motion")}
+                activeOpacity={0.9}
+              >
+                <Ionicons
+                  name="git-compare-outline"
+                  size={16}
+                  color={modalView === "motion" ? "#E5E7EB" : "#94A3B8"}
+                />
+                <Text
+                  style={[
+                    styles.tabBtnText,
+                    modalView === "motion" && styles.tabBtnTextActive,
+                  ]}
+                >
+                  Motion
+                </Text>
               </TouchableOpacity>
             </View>
 
             {modalView === "result" ? (
-              <View>
+              <View style={styles.resultSection}>
                 {!!label && (
-                  <View style={[styles.resultPill, isCorrect ? styles.pillOk : styles.pillBad]}>
-                    <Text style={styles.resultPillText}>{isCorrect ? "Correct" : "Incorrect"}</Text>
+                  <View style={styles.resultTopCard}>
+                    <View
+                      style={[
+                        styles.resultPillModern,
+                        isCorrect ? styles.pillOkModern : styles.pillBadModern,
+                      ]}
+                    >
+                      <Ionicons
+                        name={isCorrect ? "checkmark-circle-outline" : "alert-circle-outline"}
+                        size={16}
+                        color="#E5E7EB"
+                      />
+                      <Text style={styles.resultPillTextModern}>
+                        {isCorrect ? "Correct Form" : "Incorrect Form"}
+                      </Text>
+                    </View>
+
+                    {badRatio !== null ? (
+                      <View style={styles.metaChip}>
+                        <Text style={styles.metaChipLabel}>Bad ratio</Text>
+                        <Text style={styles.metaChipValue}>
+                          {(badRatio * 100).toFixed(1)}%
+                        </Text>
+                      </View>
+                    ) : null}
                   </View>
                 )}
 
-                {badRatio !== null ? (
-                  <Text style={styles.modalMeta}>Bad ratio {(badRatio * 100).toFixed(1)}%</Text>
-                ) : null}
+                <View style={styles.feedbackCard}>
+                  <Text style={styles.feedbackTitle}>Coach Feedback</Text>
+                  <Text style={styles.modalFeedbackModern}>{feedbackText}</Text>
+                </View>
 
-                <Text style={styles.modalFeedback}>{feedbackText}</Text>
-
-                <TouchableOpacity style={styles.modalBtn} onPress={() => setShowFeedback(false)} activeOpacity={0.9}>
-                  <Text style={styles.modalBtnText}>Close</Text>
+                <TouchableOpacity
+                  style={styles.modalPrimaryBtn}
+                  onPress={() => setShowFeedback(false)}
+                  activeOpacity={0.9}
+                >
+                  <Text style={styles.modalPrimaryBtnText}>Done</Text>
                 </TouchableOpacity>
               </View>
             ) : (
-              <View style={{ marginTop: 12, height: 420 }}>
-                <View style={{ flexDirection: "row", gap: 10, marginBottom: 10 }}>
-                  <TouchableOpacity style={styles.switchBtn} onPress={() => setMotionType("original")}>
-                    <Text style={styles.switchBtnText}>Before</Text>
+              <View style={styles.motionSection}>
+                <View style={styles.motionSwitchRow}>
+                  <TouchableOpacity
+                    style={[
+                      styles.motionTypeBtn,
+                      motionType === "original" && styles.motionTypeBtnActive,
+                    ]}
+                    onPress={() => setMotionType("original")}
+                    activeOpacity={0.9}
+                  >
+                    <Text
+                      style={[
+                        styles.motionTypeBtnText,
+                        motionType === "original" && styles.motionTypeBtnTextActive,
+                      ]}
+                    >
+                      Before
+                    </Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.switchBtn} onPress={() => setMotionType("reconstructed")}>
-                    <Text style={styles.switchBtnText}>After</Text>
+                  <TouchableOpacity
+                    style={[
+                      styles.motionTypeBtn,
+                      motionType === "reconstructed" && styles.motionTypeBtnActive,
+                    ]}
+                    onPress={() => setMotionType("reconstructed")}
+                    activeOpacity={0.9}
+                  >
+                    <Text
+                      style={[
+                        styles.motionTypeBtnText,
+                        motionType === "reconstructed" && styles.motionTypeBtnTextActive,
+                      ]}
+                    >
+                      After
+                    </Text>
                   </TouchableOpacity>
                 </View>
 
-                <FitnessTrainerPuppetSvg
-                  frames={motionType === "original" ? originalFrames : reconstructedFrames}
-                />
+                <View style={styles.motionCard}>
+                  <FitnessTrainerPuppetSvg
+                    frames={motionType === "original" ? originalFrames : reconstructedFrames}
+                  />
+                </View>
 
-                <TouchableOpacity style={styles.modalBtn} onPress={() => setModalView("result")} activeOpacity={0.9}>
-                  <Text style={styles.modalBtnText}>Back</Text>
+                <TouchableOpacity
+                  style={styles.modalSecondaryBtn}
+                  onPress={() => setModalView("result")}
+                  activeOpacity={0.9}
+                >
+                  <Text style={styles.modalSecondaryBtnText}>Back to Result</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -376,57 +519,261 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 16,
   },
-  modalCard: {
-    backgroundColor: "#020617",
-    borderRadius: 16,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: "rgba(59,130,246,0.18)",
-  },
-  modalHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  modalTitle: { color: "#E5E7EB", fontWeight: "900", fontSize: 16 },
-  closeIconBtn: {
-    width: 34,
-    height: 34,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(148,163,184,0.10)",
-    borderWidth: 1,
-    borderColor: "rgba(148,163,184,0.15)",
-  },
-  resultPill: {
-    marginTop: 12,
-    alignSelf: "flex-start",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 999,
-    borderWidth: 1,
-  },
-  pillOk: { backgroundColor: "rgba(34,197,94,0.15)", borderColor: "rgba(34,197,94,0.35)" },
-  pillBad: { backgroundColor: "rgba(239,68,68,0.15)", borderColor: "rgba(239,68,68,0.35)" },
-  resultPillText: { color: "#E5E7EB", fontWeight: "900" },
+  
+modalCardModern: {
+  backgroundColor: "#020617",
+  borderRadius: 24,
+  padding: 18,
+  borderWidth: 1,
+  borderColor: "rgba(59,130,246,0.22)",
+  overflow: "hidden",
+},
 
-  modalMeta: { color: "#CBD5E1", marginTop: 10, fontWeight: "700" },
-  modalFeedback: { color: "#E5E7EB", marginTop: 10, lineHeight: 18 },
+modalGlow: {
+  position: "absolute",
+  top: -40,
+  right: -30,
+  width: 140,
+  height: 140,
+  borderRadius: 999,
+  backgroundColor: "rgba(59,130,246,0.10)",
+},
 
-  modalBtn: {
-    marginTop: 14,
-    backgroundColor: "#1E293B",
-    borderRadius: 14,
-    paddingVertical: 12,
-    borderWidth: 1,
-    borderColor: "rgba(148,163,184,0.15)",
-  },
-  modalBtnText: { color: "#E5E7EB", fontWeight: "900", textAlign: "center" },
+modalHeaderModern: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+},
 
-  switchBtn: {
-  flex: 1,
-  backgroundColor: "#1E293B",
-  borderRadius: 12,
-  paddingVertical: 10,
+modalTitleRow: {
+  flexDirection: "row",
+  alignItems: "center",
+},
+
+modalTitleIconWrap: {
+  width: 42,
+  height: 42,
+  borderRadius: 14,
+  backgroundColor: "rgba(59,130,246,0.14)",
+  borderWidth: 1,
+  borderColor: "rgba(59,130,246,0.26)",
+  alignItems: "center",
+  justifyContent: "center",
+  marginRight: 12,
+},
+
+modalEyebrow: {
+  color: "#60A5FA",
+  fontSize: 12,
+  fontWeight: "800",
+  marginBottom: 2,
+},
+
+modalTitleModern: {
+  color: "#E5E7EB",
+  fontWeight: "900",
+  fontSize: 18,
+},
+
+closeIconBtnModern: {
+  width: 38,
+  height: 38,
+  borderRadius: 14,
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: "rgba(148,163,184,0.10)",
   borderWidth: 1,
   borderColor: "rgba(148,163,184,0.15)",
 },
-switchBtnText: { color: "#E5E7EB", fontWeight: "900", textAlign: "center" },
+
+tabRow: {
+  flexDirection: "row",
+  gap: 10,
+  marginTop: 18,
+  marginBottom: 8,
+},
+
+tabBtn: {
+  flex: 1,
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 8,
+  backgroundColor: "#0F172A",
+  borderRadius: 14,
+  paddingVertical: 12,
+  borderWidth: 1,
+  borderColor: "rgba(148,163,184,0.12)",
+},
+
+tabBtnActive: {
+  backgroundColor: "rgba(59,130,246,0.18)",
+  borderColor: "rgba(59,130,246,0.32)",
+},
+
+tabBtnText: {
+  color: "#94A3B8",
+  fontWeight: "800",
+},
+
+tabBtnTextActive: {
+  color: "#E5E7EB",
+},
+
+resultSection: {
+  marginTop: 14,
+},
+
+resultTopCard: {
+  backgroundColor: "#0B1220",
+  borderRadius: 18,
+  padding: 14,
+  borderWidth: 1,
+  borderColor: "rgba(148,163,184,0.12)",
+},
+
+resultPillModern: {
+  alignSelf: "flex-start",
+  flexDirection: "row",
+  alignItems: "center",
+  gap: 8,
+  paddingHorizontal: 12,
+  paddingVertical: 8,
+  borderRadius: 999,
+  borderWidth: 1,
+},
+
+pillOkModern: {
+  backgroundColor: "rgba(34,197,94,0.16)",
+  borderColor: "rgba(34,197,94,0.35)",
+},
+
+pillBadModern: {
+  backgroundColor: "rgba(239,68,68,0.16)",
+  borderColor: "rgba(239,68,68,0.35)",
+},
+
+resultPillTextModern: {
+  color: "#E5E7EB",
+  fontWeight: "900",
+},
+
+metaChip: {
+  marginTop: 12,
+  backgroundColor: "rgba(148,163,184,0.08)",
+  borderRadius: 14,
+  paddingVertical: 10,
+  paddingHorizontal: 12,
+  borderWidth: 1,
+  borderColor: "rgba(148,163,184,0.12)",
+},
+
+metaChipLabel: {
+  color: "#94A3B8",
+  fontSize: 12,
+  marginBottom: 4,
+},
+
+metaChipValue: {
+  color: "#E5E7EB",
+  fontSize: 15,
+  fontWeight: "900",
+},
+
+feedbackCard: {
+  marginTop: 14,
+  backgroundColor: "#0B1220",
+  borderRadius: 18,
+  padding: 14,
+  borderWidth: 1,
+  borderColor: "rgba(148,163,184,0.12)",
+},
+
+feedbackTitle: {
+  color: "#E5E7EB",
+  fontWeight: "900",
+  fontSize: 14,
+  marginBottom: 10,
+},
+
+modalFeedbackModern: {
+  color: "#CBD5E1",
+  lineHeight: 22,
+  fontSize: 14,
+},
+
+modalPrimaryBtn: {
+  marginTop: 16,
+  backgroundColor: "#3B82F6",
+  borderRadius: 16,
+  paddingVertical: 13,
+  borderWidth: 1,
+  borderColor: "rgba(59,130,246,0.30)",
+},
+
+modalPrimaryBtnText: {
+  color: "#E5E7EB",
+  fontWeight: "900",
+  textAlign: "center",
+},
+
+motionSection: {
+  marginTop: 14,
+},
+
+motionSwitchRow: {
+  flexDirection: "row",
+  gap: 10,
+  marginBottom: 12,
+},
+
+motionTypeBtn: {
+  flex: 1,
+  backgroundColor: "#0F172A",
+  borderRadius: 14,
+  paddingVertical: 11,
+  borderWidth: 1,
+  borderColor: "rgba(148,163,184,0.12)",
+},
+
+motionTypeBtnActive: {
+  backgroundColor: "rgba(59,130,246,0.18)",
+  borderColor: "rgba(59,130,246,0.32)",
+},
+
+motionTypeBtnText: {
+  color: "#94A3B8",
+  fontWeight: "900",
+  textAlign: "center",
+},
+
+motionTypeBtnTextActive: {
+  color: "#E5E7EB",
+},
+
+motionCard: {
+  height: 440,
+  width: "100%",
+  overflow: "hidden",
+  borderRadius: 18,
+  backgroundColor: "#0B1220",
+  borderWidth: 1,
+  borderColor: "rgba(148,163,184,0.12)",
+  padding: 10,
+},
+
+modalSecondaryBtn: {
+  marginTop: 14,
+  backgroundColor: "#1E293B",
+  borderRadius: 16,
+  paddingVertical: 13,
+  borderWidth: 1,
+  borderColor: "rgba(148,163,184,0.15)",
+},
+
+modalSecondaryBtnText: {
+  color: "#E5E7EB",
+  fontWeight: "900",
+  textAlign: "center",
+},
 });

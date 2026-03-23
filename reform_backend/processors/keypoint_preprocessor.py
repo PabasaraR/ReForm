@@ -4,7 +4,7 @@ from scipy.signal import savgol_filter
 from pipeline.config import *
 
 class KeypointPreprocessor:
-    # Takes a raw keypoint DataFrame and returns a cleaned, centered, scaled, and smoothed version.
+    # Takes a raw keypoint DataFrame and returns a cleaned, centered, scaled and smoothed version.
     def preprocess_keypoints_df(self, df):
 
         raw_keypoints_df = df.copy()

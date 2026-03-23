@@ -14,8 +14,9 @@ export default function LoadingScreen() {
     let navigateTimeout: any;
 
     const start = async () => {
-      // 🔐 Check token while animation is running
+  
       const token = await getToken();
+      // decide next screen based on login status
       const nextRoute = token ? "/home" : "/signin";
 
       const bgOnlyDelay = setTimeout(() => {
@@ -28,7 +29,6 @@ export default function LoadingScreen() {
           if (i >= fullText.length) {
             clearInterval(letterTimer);
 
-            // shimmer start
             setTimeout(() => {
               setShimmerOn(true);
               shimmer.setValue(0);
@@ -42,7 +42,6 @@ export default function LoadingScreen() {
                 }),
               ).start();
 
-              // ✅ NAVIGATE BASED ON TOKEN
               navigateTimeout = setTimeout(() => {
                 router.replace(nextRoute);
               }, 2000);

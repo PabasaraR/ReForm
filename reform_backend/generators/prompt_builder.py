@@ -2,30 +2,38 @@
 import numpy as np
 from pipeline.config import KP_INDICES
 
+# create feature names
 FEATURE_NAMES = (
     [f"x_{kp}" for kp in KP_INDICES] +
     [f"y_{kp}" for kp in KP_INDICES]
 )
 
 class PromptBuilder:
-    """Build prompts for LLM"""
-    
+    #   Build detailed error report for each sequence
     def build_sequence_error_report(self, errs, exceed, errs_di, seq_is_bad):
-        """Build sequence error report - same logic as original"""
+  
         from pipeline.config import TEST_STRIDE
-        
+        # find indices of bad sequences
         bad_seq_indices = np.where(seq_is_bad)[0]
+        # get first bad sequence index
         first_bad_sequence = int(bad_seq_indices[0]) if len(bad_seq_indices) > 0 else None
+        # calculate approximate frame where first error starts
         first_bad_frame = (first_bad_sequence * TEST_STRIDE) if first_bad_sequence is not None else None
 
         sequence_keypoint_errors = []
 
         n_features = len(FEATURE_NAMES)
+
+        # loop through each sequence
         for seq in range(errs.shape[0]):
+            # store error value for each feature
             feature_errors_dict = {FEATURE_NAMES[i]: float(errs[seq, i]) for i in range(n_features)}
+            # store whether each feature exceeds threshold (True or False)
             feature_exceed_dict = {FEATURE_NAMES[i]: bool(exceed[seq, i]) for i in range(n_features)}
+            # store direction of error (positive or negative)
             feature_dir_dict = {FEATURE_NAMES[i]: float(errs_di[seq, i]) for i in range(n_features)}
 
+            # add all information for this sequence
             sequence_keypoint_errors.append({
                 "sequence_index": int(seq),
                 "approx_start_frame": int(seq * TEST_STRIDE),
@@ -38,33 +46,40 @@ class PromptBuilder:
 
         return first_bad_sequence, first_bad_frame, sequence_keypoint_errors
 
+    # Create summary for each keypoint (feature)
     def make_keypoint_wise_summary(self, sequence_keypoint_errors, FEATURE_NAMES):
-        """Make keypoint-wise summary - same logic as original"""
         keypoint_summary = {}
 
+        # loop through each feature
         for feat in FEATURE_NAMES:
             errors_by_seq = []
             direction_by_seq = []
             exceed_seqs = []
 
+            # loop through each sequence
             for seq in sequence_keypoint_errors:
+                # get sequence index and frame
                 seq_i = int(seq["sequence_index"])
                 fr_i = int(seq["approx_start_frame"])
 
+                # get error, direction and exceed info for this feature
                 e = float(seq["errors"][feat])
                 d = float(seq["direction"][feat])
                 ex = bool(seq["exceed"][feat])
-
+                # store error value with sequence info
                 errors_by_seq.append({"seq": seq_i, "frame": fr_i, "val": e})
+                # store direction value with sequence info
                 direction_by_seq.append({"seq": seq_i, "frame": fr_i, "val": d})
 
                 if ex:
                     exceed_seqs.append(seq_i)
-
+            # calculate average error for this feature
             mean_error = float(np.mean([x["val"] for x in errors_by_seq])) if errors_by_seq else 0.0
+            # calculate average direction for this feature
             mean_direction = float(np.mean([x["val"] for x in direction_by_seq])) if direction_by_seq else 0.0
+            # calculate how often this feature is bad across sequences
             exceed_rate = float(len(exceed_seqs) / max(1, len(sequence_keypoint_errors)))
-
+            # store all summary data for this feature
             keypoint_summary[feat] = {
                 "errors_by_seq": errors_by_seq,
                 "direction_by_seq": direction_by_seq,
@@ -76,6 +91,7 @@ class PromptBuilder:
 
         return keypoint_summary
 
+    # Build prompt text for LLM using keypoint error summary
     def build_llm_prompt_keypoint_wise(
         self,
         exercise_name,
@@ -89,14 +105,17 @@ class PromptBuilder:
     ):
         """Build LLM prompt - same logic as original"""
         lines = []
-
-        lines.append("You are a fitness coach. Generate clear, short feedback for a user's bicep curl technique.\n")
+        # basic instruction for LLM
+        lines.append("You are a fitness coach. Generate clear, short feedback for a user's bicep curl or shoulder press technique.\n")
+        # add exercise name
         lines.append(f"Exercise: {exercise_name.replace('_', ' ').title()}")
+        # add final prediction result correct or wrong
         lines.append(f"Final decision(exercise is corect or wrong): {label}")
+        # if there is an error, show where it starts
         if first_bad_sequence is not None:
             lines.append(f"Error starts at: sequence {first_bad_sequence} (approx frame {first_bad_frame})")
         lines.append("")
-
+        # explain what each keypoint means
         lines.append("Keypoint mapping:")
         lines.append(
             "x_11 left shoulder (horizontal movement), x_12 right shoulder (horizontal movement),\n"
@@ -106,7 +125,7 @@ class PromptBuilder:
             "y_11.y_24 are the same joints (vertical movement).\n"
             "(these are the mediapipe key points representation)\n"
         )
-
+        # explain meaning of data
         lines.append("Data notes:")
         lines.append(f"- Each sequence contains {SEQ_LEN} frames.")
         lines.append("- error is MSE (always positive). Larger = more abnormal.")
@@ -119,7 +138,7 @@ class PromptBuilder:
         lines.append("    + Positive (+) x-direction means the keypoint is closer to its normal horizontal position, typically moving inward toward the body.")
         lines.append("- exceed means this keypoint exceeded its own threshold in that sequence.")
         lines.append("")
-
+        # select only important wrong keypoints
         wrong_feats = [feat for feat in FEATURE_NAMES if keypoint_summary[feat]["exceed_rate"] > 0.125]
 
         if len(wrong_feats) == 0:
@@ -130,6 +149,7 @@ class PromptBuilder:
 
             show_feats = sorted(wrong_feats, key=sort_key, reverse=True)
 
+        # function to format sequence values into readable text
         def format_sequence_values(seq_values, signed=False):
             out = []
             for v in seq_values[:MAX_SEQ_SHOW]:
@@ -140,7 +160,7 @@ class PromptBuilder:
             return " | ".join(out)
 
         lines.append("Keypoint-wise abnormality summary (each keypoint across sequences):\n")
-
+        # loop through selected important features
         for feat in show_feats:
             info = keypoint_summary[feat]
             exceed_seqs = info["exceed_seqs"]
@@ -160,12 +180,13 @@ class PromptBuilder:
             lines.append("  " + format_sequence_values(info["direction_by_seq"], signed=True))
 
             lines.append("")
-
+        # instructions for LLM output
         lines.append("Task:")
         lines.append("1) Explain what is wrong in 1–2 short sentences.")
         lines.append("2) Give 2–3 specific correction tips.")
         lines.append("3) Mention the body parts likely causing the issue (elbow/shoulder/hip/wrist).")
         lines.append("4) Keep it simple, like: Your bicep curl is wrong. Your elbow moves forward. Keep your elbow steady.")
         lines.append("Only return the feedback text. Do not return JSON.")
+        lines.append("Remember, only gave feedback if the final decision is wrong. If the final decision is correct, say something like: Your bicep curl looks good! Keep it up!")
 
         return "\n".join(lines)

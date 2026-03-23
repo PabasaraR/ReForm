@@ -46,7 +46,6 @@ export default function HomeDashboard() {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.hero}>
         <Text style={styles.heroTitle}>Train Smarter</Text>
         <Text style={styles.heroSub}>
@@ -54,7 +53,6 @@ export default function HomeDashboard() {
         </Text>
       </View>
 
-      {/* Main Section */}
       <GlassCard>
         <View style={styles.sectionHeaderRow}>
           <Text style={styles.sectionTitle}>Exercises</Text>
@@ -99,8 +97,6 @@ export default function HomeDashboard() {
         </View>
       </GlassCard>
 
-
-      {/* Tip box */}
       <View style={styles.tipBox}>
         <View style={styles.tipHeader}>
           <Ionicons name="sparkles-outline" size={16} color="#3B82F6" />
@@ -172,7 +168,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 12,
   },
-
   exerciseCard: {
     flex: 1,
     backgroundColor: "#020617",
@@ -219,7 +214,6 @@ const styles = StyleSheet.create({
     color: "#E5E7EB",
     fontWeight: "800",
   },
-
   tipBox: {
     marginTop: 14,
     backgroundColor: "#020617",

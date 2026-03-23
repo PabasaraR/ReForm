@@ -74,7 +74,7 @@ export default function VideoPlayerModal({ visible, videoDocId, onClose }: Props
           ) : source ? (
             <View style={styles.playerWrap}>
               <Video
-                source={source}                 // ✅ includes headers
+                source={source}                 
                 style={styles.video}
                 useNativeControls
                 resizeMode={ResizeMode.CONTAIN}
