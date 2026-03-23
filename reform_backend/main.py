@@ -62,3 +62,7 @@ async def analyze_from_url(
     finally:
         # always delete temporary video file
         video.cleanup()
+
+@app.get("/")
+def home():
+    return {"message": "Python backend is running"}
