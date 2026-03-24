@@ -24,6 +24,9 @@ app.use(
     max: 120,
   })
 );
+app.get("/", (req, res) => {
+  res.json({ message: "Node backend is running" })
+})
 // use authentication routes
 app.use("/api/auth", authRoutes);
 // use video routes
